@@ -27,9 +27,12 @@ class Schedule(models.Model):
 class Class(models.Model):
     name = models.CharField(max_length=255)
     age_group = models.CharField(max_length=10)  # Just a written '??-??'
-    roomRequirement = ArrayField(
-        models.ForeignKey(Classroom, on_delete=models.PROTECT)  # Room requirements need to match the actual classrooms
-    )
+    # room_requirement = ArrayField(
+    #     # Room requirements need to match the actual classrooms
+    #     models.ForeignKey(Classroom, on_delete=models.PROTECT)
+    # )
+
+    room_requirement = models.ManyToManyField(Classroom, related_name='allowed_rooms')
 
     def __str__(self):
         return self.name
@@ -44,10 +47,12 @@ class Instructor(models.Model):
     availability = ArrayField(
         models.IntegerField()
     )
-    specialty = ArrayField(
-        models.ForeignKey(Class, on_delete=models.PROTECT)
-        # Dawn was assuming specialty was just the classes they could teach
-    )
+    # specialty = ArrayField(
+    #     models.ForeignKey(Class, on_delete=models.PROTECT)
+    #     # Dawn was assuming specialty was just the classes they could teach
+    # )
+
+    specialty = models.ManyToManyField(Class, related_name='specialities')
 
     def __str__(self):
         return self.name
