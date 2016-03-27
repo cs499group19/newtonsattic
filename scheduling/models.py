@@ -16,22 +16,23 @@ class Classroom(models.Model):
 
 class Schedule(models.Model):
     year = models.IntegerField(default=date.today().year)
-    version = models.CharField(max_length=255)  # I'm assuming the version is really
+
+    # I'm assuming the version is really
     # just what they name it so it's different from the auto primary key
-    schedule = models.TextField()  # to store the JSON
+    name = models.CharField(max_length=255)
+
+    # to store the JSON
+    schedule = models.TextField()
 
     def __str__(self):
-        return self.version
+        return self.name
 
 
 class Class(models.Model):
     name = models.CharField(max_length=255)
     age_group = models.CharField(max_length=10)  # Just a written '??-??'
-    # room_requirement = ArrayField(
-    #     # Room requirements need to match the actual classrooms
-    #     models.ForeignKey(Classroom, on_delete=models.PROTECT)
-    # )
 
+    # Room requirements need to match the actual classrooms
     room_requirement = models.ManyToManyField(Classroom, related_name='allowed_rooms')
 
     def __str__(self):
@@ -47,11 +48,8 @@ class Instructor(models.Model):
     availability = ArrayField(
         models.IntegerField()
     )
-    # specialty = ArrayField(
-    #     models.ForeignKey(Class, on_delete=models.PROTECT)
-    #     # Dawn was assuming specialty was just the classes they could teach
-    # )
 
+    # Dawn was assuming specialty was just the classes they could teach
     specialty = models.ManyToManyField(Class, related_name='specialities')
 
     def __str__(self):
@@ -61,7 +59,9 @@ class Instructor(models.Model):
 class Document(models.Model):
     name = models.CharField(max_length=255)
     for_class = models.ForeignKey(Class, on_delete=models.PROTECT)
-    document = models.FileField(upload_to='uploads/%Y/%m/%d/')  # I'm not sure if this is right
+
+    # I'm not sure if this is right
+    document = models.FileField(upload_to='uploads/%Y/%m/%d/')
 
     def __str__(self):
         return self.name
