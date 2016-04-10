@@ -1,117 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-table, th, td{
-    border: 2px solid black;
-    border-collapse: collapse;
-}
-table{
-    float:left;
-    width:60%;
-}
-th{
-    padding: 5px;
-    text-align: left;
-}
-td{
-    padding: 50px;
-    text-align: left;
-}
-</style>
   <meta charset="utf-8">
-  <title>draggable demo</title>
-  <!--link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"-->
+  <title>Scheduling Application</title>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-  <style>
-  #draggable, #draggable2 {
-    width: 100px;
-    height: 25px;
-    float: right;
-    background: #ccc;
-  }
-  #droppable {
-    position: relative;
-    left: 250px;
-    top: 0;
-    width: 125px;
-    height: 125px;
-    background: #999;
-    color: #fff;
-    padding: 10px;
-  }
-  #data {position: relative; float: right; width: 7%; min-height: 1em; padding: 1%; }
-  .data li { position: relative; float: right; width: 80px; padding: 0.2em; margin: 0 0.1em 0.1em 0; text-align: center; }
-  .data li h5 { margin: 0 0 0.4em; cursor: move; }
-  .data li a { float: right; }
-
-  #calendar { position: relative; float: left; width: 100%; min-height: 18em; padding: 3%; }
-  #calendar h2 { line-height: 25px; margin: 0 0 0.4em; }
-  .calendar h4 { line-height: 16px; margin: 0 0 0.4em; }
-  .calendar h4 .ui-icon { float: left; }
-  .calendar .trash h5 { display: none; }
-
-  .ui-tabs .ui-tabs-panel {
-    display: block;
-    width: 70%;
-    border-width: 0;
-    padding: 1em 1.4em;
-    background: none;
-  }
-  .ui-tabs .ui-tabs-nav {
-    margin: 0;
-    padding: .2em .2em 0;
-  }
-
-  .ui-widget .ui-widget {
-    font-size: 1em;
-  }
-  .ui-widget-content {
-    border: 1px solid #aaaaaa;
-    background: #ffffff url("images/ui-bg_flat_75_ffffff_40x100.png") 50% 50% repeat-x;
-    color: #222222;
-  }
-  .ui-widget {
-    float: left;
-    width: 80%;
-    font-family: Verdana,Arial,sans-serif;
-    font-size: 1.1em;
-  }
-
-  </style>
-  <!--script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script-->
+  <link rel="stylesheet" type="text/css" href="style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="schedule.js"></script>
 </head>
 <body>
 
 <h1>Scheduling Application</h1>
 <hr>
-
-<!--table>
-    <tr>
-        <th>Morning</th>
-        <th>Morning</th>
-        <th>Morning</th>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <th>Afternoon</th>
-        <th>Afternoon</th>
-        <th>Afternoon</th>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-</table-->
-
 <div class="ui-widget ui-helper-clearfix">
 <div id="tabs">
   <ul>
@@ -129,172 +30,272 @@ td{
     <li><a href="#tabs-12">Week 12</a></li>
   </ul>
   <div id="tabs-1">
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Morning</h2>
+    <div id="week1m" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week1m" class="ui-widget-header">Morning</h2>
     </div>
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Afternoon</h2>
+    <div id="week1a" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week1a" class="ui-widget-header">Afternoon</h2>
     </div>
+    <ul id="data1" class="data ui-helper-reset ui-helper-clearfix">
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 2</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 3</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 4</h5>
+	   </li>
+     </ul>
   </div>
   <div id="tabs-2">
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Morning</h2>
+    <div id="week2m" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week2m" class="ui-widget-header">Morning</h2>
     </div>
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Afternoon</h2>
+    <div id="week2a" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week2a" class="ui-widget-header">Afternoon</h2>
     </div>
+    <ul id="data2" class="data ui-helper-reset ui-helper-clearfix">
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 2</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 3</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 4</h5>
+	   </li>
+     </ul>
   </div>
   <div id="tabs-3">
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Morning</h2>
+    <div id="week3m" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week3m" class="ui-widget-header">Morning</h2>
     </div>
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Afternoon</h2>
+    <div id="week3a" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week3a" class="ui-widget-header">Afternoon</h2>
     </div>
+    <ul id="data3" class="data ui-helper-reset ui-helper-clearfix">
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 2</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 3</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 4</h5>
+	   </li>
+     </ul>
   </div>
   <div id="tabs-4">
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Morning</h2>
+    <div id="week4m" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week4m" class="ui-widget-header">Morning</h2>
     </div>
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Afternoon</h2>
+    <div id="week4a" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week4a" class="ui-widget-header">Afternoon</h2>
     </div>
+    <ul id="data4" class="data ui-helper-reset ui-helper-clearfix">
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 2</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 3</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 4</h5>
+	   </li>
+     </ul>
   </div>
   <div id="tabs-5">
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Morning</h2>
+    <div id="week5m" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week5m" class="ui-widget-header">Morning</h2>
     </div>
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Afternoon</h2>
+    <div id="week5a" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week5a" class="ui-widget-header">Afternoon</h2>
     </div>
+    <ul id="data5" class="data ui-helper-reset ui-helper-clearfix">
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 2</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 3</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 4</h5>
+	   </li>
+     </ul>
   </div>
   <div id="tabs-6">
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Morning</h2>
+    <div id="week6m" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week6m" class="ui-widget-header">Morning</h2>
     </div>
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Afternoon</h2>
+    <div id="week6a" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week6a" class="ui-widget-header">Afternoon</h2>
     </div>
+    <ul id="data6" class="data ui-helper-reset ui-helper-clearfix">
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 2</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 3</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 4</h5>
+	   </li>
+     </ul>
   </div>
   <div id="tabs-7">
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Morning</h2>
+    <div id="week7m" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week7m" class="ui-widget-header">Morning</h2>
     </div>
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Afternoon</h2>
+    <div id="week7a" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week7a" class="ui-widget-header">Afternoon</h2>
     </div>
+    <ul id="data7" class="data ui-helper-reset ui-helper-clearfix">
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 2</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 3</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 4</h5>
+	   </li>
+     </ul>
   </div>
   <div id="tabs-8">
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Morning</h2>
+    <div id="week8m" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week8m" class="ui-widget-header">Morning</h2>
     </div>
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Afternoon</h2>
+    <div id="week8a" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week8a" class="ui-widget-header">Afternoon</h2>
     </div>
+    <ul id="data8" class="data ui-helper-reset ui-helper-clearfix">
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 2</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 3</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 4</h5>
+	   </li>
+     </ul>
   </div>
   <div id="tabs-9">
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Morning</h2>
+    <div id="week9m" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week9m" class="ui-widget-header">Morning</h2>
     </div>
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Afternoon</h2>
+    <div id="week9a" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week9a" class="ui-widget-header">Afternoon</h2>
     </div>
+    <ul id="data9" class="data ui-helper-reset ui-helper-clearfix">
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 2</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 3</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 4</h5>
+	   </li>
+     </ul>
   </div>
   <div id="tabs-10">
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Morning</h2>
+    <div id="week10m" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week10m" class="ui-widget-header">Morning</h2>
     </div>
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Afternoon</h2>
+    <div id="week10a" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week10a" class="ui-widget-header">Afternoon</h2>
     </div>
+    <ul id="data10" class="data ui-helper-reset ui-helper-clearfix">
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 2</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 3</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 4</h5>
+	   </li>
+     </ul>
   </div>
   <div id="tabs-11">
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Morning</h2>
+    <div id="week11m" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week11m" class="ui-widget-header">Morning</h2>
     </div>
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Afternoon</h2>
+    <div id="week11a" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week11a" class="ui-widget-header">Afternoon</h2>
     </div>
+    <ul id="data11" class="data ui-helper-reset ui-helper-clearfix">
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 2</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 3</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 4</h5>
+	   </li>
+     </ul>
   </div>
   <div id="tabs-12">
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Morning</h2>
+    <div id="week12m" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week12m" class="ui-widget-header">Morning</h2>
     </div>
-    <div id="calendar" class="ui-widget-content ui-state-default">
-        <h2 class="ui-widget-header">Afternoon</h2>
+    <div id="week12a" class="calendar ui-widget-content ui-state-default">
+        <h2 href="#week12a" class="ui-widget-header">Afternoon</h2>
     </div>
+    <ul id="data12" class="data ui-helper-reset ui-helper-clearfix">
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 2</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 3</h5>
+	   </li>
+	   <li class="ui-widget-content ui-corner-tr">
+         <h5 class="ui-widget-header">Test 4</h5>
+	   </li>
+     </ul>
   </div>
-</div>
-
-<ul id="data" class="calendar ui-helper-reset ui-helper-clearfix">
-
-    <h5 class="ui-widget-header">Test</h5>
-
-    <h5 class="ui-widget-header">Test 2</h5>
-
-    <h5 class="ui-widget-header">Test 3</h5>
-
-    <h5 class="ui-widget-header">Test 4</h5>
-
-</ul>
-
-
-
-<!--div id="droppable">Drop here</div>
-<div id="draggable">Drag me</div>
-<div id="draggable2">Drag me2</div-->
 
 </div>
-
-<script>
-$( "#draggable" ).draggable({
-    containment: "droppable",
-    snap: "droppable",
-    cursor: "crosshair",
-    stack: "droppable",
-    zIndex: 50
-});
-$( "#draggable2" ).draggable({
-
-    snap: "droppable"
-});
-$( "#droppable" ).droppable({
-  drop: function() {
-    alert( "dropped" );
-  }
-});
-//$(function() {
-$( "h5", $( "#data" )).draggable({
-      revert: "invalid", // when not dropped, the item will revert back to its initial position
-      containment: "calendar",
-      helper: "clone",
-      cursor: "move"
-});
-$( "#calendar" ).droppable({
-      accept: "#data > h5",
-      activeClass: "ui-state-highlight",
-      drop: function() {
-           deleteGroup( ui.draggable );
-           alert( "dropped" );
-      }
-});
-/*function deleteGroup( $item ) {
-      $item.fadeOut(function() {
-          var $list = $( "ul", $calendar ).length ?
-          $( "ul", $calendar ) :
-          $( "<ul class='gallery ui-helper-reset'/>" ).appendTo( $calendar );
-
-      });
-    }*/
-//});
-$(function() {
-    $( "#tabs" ).tabs();
-});
-
-
-
-
-</script>
+</div>
 
 </body>
 </html>

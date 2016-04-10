@@ -1,0 +1,35 @@
+.data {position: relative; float: right; width: 7%; min-height: 1em; padding: 1%; }
+.data li { position: relative; float: right; width: 80px; padding: 0.2em; margin: 0 0.1em 0.1em 0; text-align: center; }
+.data li h5 { margin: 0 0 0; cursor: move; }
+.data li a { float: right; }
+
+.calendar { position: relative; float: left; width: 70%; min-height: 18em; padding: 3%; }
+.calendar h2 { line-height: 25px; margin: 0 0 0.4em; }
+.calendar h4 { line-height: 16px; margin: 0 0 0.4em; }
+.calendar h4 .ui-icon { float: left; }
+
+.ui-tabs .ui-tabs-panel {
+  display: block;
+  /*width: 100%;*/
+  border-width: 0;
+  padding: 1em 1.4em;
+  background: none;
+}
+.ui-tabs .ui-tabs-nav {
+  margin: 0;
+  padding: .2em .2em 0;
+}
+.ui-widget .ui-widget {
+  font-size: 1em;
+}
+.ui-widget-content {
+  border: 1px solid #aaaaaa;
+  background: #ffffff url("images/ui-bg_flat_75_ffffff_40x100.png") 50% 50% repeat-x;
+  color: #222222;
+}
+.ui-widget {
+  float: left;
+  /*width: 100%;*/
+  font-family: Verdana,Arial,sans-serif;
+  font-size: 1.1em;
+}
