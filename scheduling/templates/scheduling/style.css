@@ -33,3 +33,55 @@
   font-family: Verdana,Arial,sans-serif;
   font-size: 1.1em;
 }
+
+
+
+#avail { position: relative; float: left; width: 30%; min-height: 1em; padding: 1%;}
+#age { position: relative; float: left; width: 30%; min-height: 1em; padding: 1%;}
+
+/*.checkbox-list li:hover,
+.checkbox-list ul li:hover {
+	color: #000;
+	background-color: #ddd;
+}
+
+.checkbox-list li:hover {
+	color: #000;
+	background-color: #ddd;
+}*/
+
+.checkbox-list li,
+.checkbox-list ul li {
+  margin-bottom: 5px;
+  padding-top: 2px;
+  position: relative;
+  list-style: none;
+}
+
+.checkbox-list label,
+.checkbox-list ul label {
+  display: block;
+  font-weight: normal;
+  padding-left: 21px;
+}
+
+.checkbox-list input,
+.checkbox-list ul input {
+  display: inline;
+  margin: 0 5px 0 -21px;
+  position: absolute;
+  top: 2px;
+}
+
+.checkbox-list ul {
+  margin: 5px 0 0 20px;
+}
+
+.checkbox-list p,
+.checkbox-list ul p {
+  color: #808080;
+  padding-left: 21px;
+  margin: 0;
+}
+
+
