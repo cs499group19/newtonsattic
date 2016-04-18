@@ -120,3 +120,5 @@ docs/_build/
 target/
 
 *.sqlite3
+
+.DS_Store
