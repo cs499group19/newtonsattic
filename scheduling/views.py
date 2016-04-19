@@ -16,10 +16,12 @@ def index(request):
         'Schedule'
     ]
 
+    # Get all models specified above.
     models = map(lambda name: apps.get_model('scheduling', name), models_to_get)
 
     context = {'data': {}, 'DEBUG': settings.DEBUG}
     for model in models:
+        # Get all records associated with a particular model and serialize them.
         context['data'][model.__name__] = serializers.serialize('json', model.objects.all())
 
     return render(request, 'scheduling/schedule.html', context)
