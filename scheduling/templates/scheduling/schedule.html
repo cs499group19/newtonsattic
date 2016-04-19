@@ -16,7 +16,9 @@
 {% if DEBUG %}
     <pre>{{ data }}</pre>
 {% endif %}
-
+<script type="application/javascript">
+    var data = parseDatabaseData({{ data|safe }});
+</script>
 <h1>Scheduling Application</h1>
 <hr>
 <div class="ui-widget ui-helper-clearfix">

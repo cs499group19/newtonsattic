@@ -1,3 +1,17 @@
+function parseDatabaseData(data) 
+{
+    var rv = {};
+    for (var key in data)
+    {
+        if (data.hasOwnProperty(key))
+        {
+            rv[key] = JSON.parse(data[key]);
+        }
+    }
+    
+    return rv;
+}
+
 //All of the following functions use jQuery
 $(function() {
 //variables that store the data and the calendar weeks
