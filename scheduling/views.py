@@ -28,6 +28,9 @@ def index(request):
 
     for model in models:
         # Get all records associated with a particular model and serialize them.
-        context['data'][model.__name__] = serializers.serialize('json', model.objects.all())
+        records = model.objects.all()
+
+        context[model.__name__] = records
+        context['data'][model.__name__] = serializers.serialize('json', records)
 
     return render(request, 'scheduling/schedule.html', context)

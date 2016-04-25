@@ -17,17 +17,10 @@
 {% endblock %}
 
 {% block content %}
-  {% if DEBUG and False %}
-    <pre>{{ data }}</pre>
-  {% endif %}
-  <script type="application/javascript">
-    var data = parseDatabaseData({{ data|safe }});
-  </script>
-
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
           {% for week in weeks %}
             <li role="presentation">
               <a href="#week-{{ week }}"
@@ -50,7 +43,7 @@
               <div class="row">
                 <div class="col-md-6">
                   {% for time in times %}
-                    <div class="box box-default">
+                    <div class="box box-default time">
                       <div class="box-header with-border">
                         <h3 class="box-title">{{ time }}</h3>
                         <div class="box-tools pull-right">
@@ -60,17 +53,19 @@
                         </div>
                       </div>
                       <div class="box-body">
-                        <ul>
-                          <li>{{ week }}</li>
+                        <ul id="time" style="list-style-type:none">
+                          <!--div>{{ week }}</div-->
                         </ul>
                       </div>
                     </div>
                   {% endfor %}
                 </div>
-                <div class="col-md-4">
-                  <div class="box box-default collapsed-box">
+                <div id="allCourses" class="col-md-4">
+                  {% for class in Class %}
+                  <!-- begin box-->
+                  <div class="box box-default collapsed-box course">
                     <div class="box-header with-border">
-                      <h3 class="box-title">week {{ week }}</h3>
+                      <h3 class="box-title">{{ class.name }}</h3>
                       <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse">
                           <i class="fa fa-minus"></i>
@@ -78,11 +73,13 @@
                       </div>
                     </div>
                     <div class="box-body">
-                      <ul>
-                        <li>week</li>
+                      <ul id="course" style="list-style-type:circle">
+                        <li>Age Group: {{ class.age_group }}</li>
                       </ul>
                     </div>
                   </div>
+                  <!-- end box -->
+                  {% endfor %}
                 </div>
               </div>
             </div>
@@ -114,5 +111,8 @@
     $(function () {
       $('a[role="tab"]:first').tab('show');
     })();
+  </script>
+    <script type="application/javascript">
+    var data = parseDatabaseData({{ data|safe }});
   </script>
 {% endblock %}
