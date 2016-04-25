@@ -1,5 +1,6 @@
 {% extends 'base/layout.html' %}
 {% load staticfiles %}
+{% load dict_lookup %}
 
 {% block title %}Scheduling{% endblock %}
 
@@ -61,7 +62,8 @@
                   {% endfor %}
                 </div>
                 <div id="allCourses" class="col-md-4">
-                  {% for class in Class %}
+                  <h3>Available Courses</h3>
+                  {% for class in sorted|get_item:week %}
                   <!-- begin box-->
                   <div class="box box-primary collapsed-box course">
                     <div class="box-header with-border">
@@ -73,7 +75,7 @@
                       </div>
                     </div>
                     <div class="box-body">
-                      <ul id="course" style="list-style-type:circle">
+                      <ul id="course" style="list-style-type: circle">
                         <li>Age Group: {{ class.age_group }}</li>
                         <li>
                           Instructor:

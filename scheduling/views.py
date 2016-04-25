@@ -21,10 +21,13 @@ def index(request):
 
     context = {
         'data': {},
-        'weeks': range(1, 13),
+        'weeks': list(range(1, 13)),
         'times': ['Morning', 'Afternoon'],
-        'DEBUG': settings.DEBUG
+        'sorted': {}
     }
+
+    for week in context['weeks']:
+        context['sorted'][week] = []
 
     for model in models:
         # Get all records associated with a particular model and serialize them.
@@ -32,6 +35,16 @@ def index(request):
 
         context[model.__name__] = records
         context['data'][model.__name__] = serializers.serialize('json', records)
+
+    import random
+    import pprint
+    random.seed(15)
+    for c in context['Class']:
+        for week in context['weeks']:
+            if random.random() > 0.51:
+                context['sorted'][week].append(c)
+
+    pprint.pprint(context['sorted'])
 
     return render(request, 'scheduling/schedule.html', context)
 
