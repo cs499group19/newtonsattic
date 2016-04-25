@@ -34,3 +34,8 @@ def index(request):
         context['data'][model.__name__] = serializers.serialize('json', records)
 
     return render(request, 'scheduling/schedule.html', context)
+
+
+@login_required(login_url='/login/')
+def instructor_availability(request):
+    return render(request, 'scheduling/availability.html', {'weeks': range(1, 13)})

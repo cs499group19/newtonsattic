@@ -1,251 +1,100 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Availability</title>
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" type="text/css" href="../../static/scheduling/style.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="testJavaScript.js"></script>
-</head>
-<body>
+{% extends 'base/layout.html' %}
+{% load staticfiles %}
 
-<h1>Availablility</h1>
-<hr>
-<form>
- <div id="avail">
-<ul class="checkbox-list">
- <li>
-  <label for="week1">
-   <input type="checkbox" id="week1">Week 1
-  </label>
-  <ul>
-   <li>
-    <label for="week1m">
-     <input type="checkbox" id="week1m">Morning
-    </label>
-   </li>
-   <li>
-    <label for="week1a">
-     <input type="checkbox" id="week1a">Afternoon
-    </label>
-   </li>
-  </ul>
- </li>
- <li>
-  <label for="week2">
-   <input type="checkbox" id="week2">Week 2
-  </label>
-  <ul>
-   <li>
-    <label for="week2m">
-     <input type="checkbox" id="week2m">Morning
-    </label>
-   </li>
-   <li>
-    <label for="week2a">
-     <input type="checkbox" id="week2a">Afternoon
-    </label>
-   </li>
-  </ul>
- </li>
- <li>
-  <label for="week3">
-   <input type="checkbox" id="week3">Week 3
-  </label>
-  <ul>
-   <li>
-    <label for="week3m">
-     <input type="checkbox" id="week3m">Morning
-    </label>
-   </li>
-   <li>
-    <label for="week3a">
-     <input type="checkbox" id="week3a">Afternoon
-    </label>
-   </li>
-  </ul>
- </li>
- <li>
-  <label for="week4">
-   <input type="checkbox" id="week4">Week 4
-  </label>
-  <ul>
-   <li>
-    <label for="week4m">
-     <input type="checkbox" id="week4m">Morning
-    </label>
-   </li>
-   <li>
-    <label for="week4a">
-     <input type="checkbox" id="week4a">Afternoon
-    </label>
-   </li>
-  </ul>
- </li>
- <li>
-  <label for="week5">
-   <input type="checkbox" id="week5">Week 5
-  </label>
-  <ul>
-   <li>
-    <label for="week5m">
-     <input type="checkbox" id="week5m">Morning
-    </label>
-   </li>
-   <li>
-    <label for="week5a">
-     <input type="checkbox" id="week5a">Afternoon
-    </label>
-   </li>
-  </ul>
- </li>
- <li>
-  <label for="week6">
-   <input type="checkbox" id="week6">Week 6
-  </label>
-  <ul>
-   <li>
-    <label for="week6m">
-     <input type="checkbox" id="week6m">Morning
-    </label>
-   </li>
-   <li>
-    <label for="week6a">
-     <input type="checkbox" id="week6a">Afternoon
-    </label>
-   </li>
-  </ul>
- </li>
- <li>
-  <label for="week7">
-   <input type="checkbox" id="week7">Week 7
-  </label>
-  <ul>
-   <li>
-    <label for="week7m">
-     <input type="checkbox" id="week7m">Morning
-    </label>
-   </li>
-   <li>
-    <label for="week7a">
-     <input type="checkbox" id="week7a">Afternoon
-    </label>
-   </li>
-  </ul>
- </li>
- <li>
-  <label for="week8">
-   <input type="checkbox" id="week8">Week 8
-  </label>
-  <ul>
-   <li>
-    <label for="week8m">
-     <input type="checkbox" id="week8m">Morning
-    </label>
-   </li>
-   <li>
-    <label for="week8a">
-     <input type="checkbox" id="week8a">Afternoon
-    </label>
-   </li>
-  </ul>
- </li>
- <li>
-  <label for="week9">
-   <input type="checkbox" id="week9">Week 9
-  </label>
-  <ul>
-   <li>
-    <label for="week9m">
-     <input type="checkbox" id="week9m">Morning
-    </label>
-   </li>
-   <li>
-    <label for="week9a">
-     <input type="checkbox" id="week9a">Afternoon
-    </label>
-   </li>
-  </ul>
- </li>
- <li>
-  <label for="week10">
-   <input type="checkbox" id="week10">Week 10
-  </label>
-  <ul>
-   <li>
-    <label for="week10m">
-     <input type="checkbox" id="week10m">Morning
-    </label>
-   </li>
-   <li>
-    <label for="week10a">
-     <input type="checkbox" id="week10a">Afternoon
-    </label>
-   </li>
-  </ul>
- </li>
- <li>
-  <label for="week11">
-   <input type="checkbox" id="week11">Week 11
-  </label>
-  <ul>
-   <li>
-    <label for="week11m">
-     <input type="checkbox" id="week11m">Morning
-    </label>
-   </li>
-   <li>
-    <label for="week11a">
-     <input type="checkbox" id="week11a">Afternoon
-    </label>
-   </li>
-  </ul>
- </li>
- <li>
-  <label for="week12">
-   <input type="checkbox" id="week12">Week 12
-  </label>
-  <ul>
-   <li>
-    <label for="week12m">
-     <input type="checkbox" id="week12m">Morning
-    </label>
-   </li>
-   <li>
-    <label for="week12a">
-     <input type="checkbox" id="week12a">Afternoon
-    </label>
-   </li>
-  </ul>
- </li>
-</ul>
-</div>
+{% block title %}Instructor Availability{% endblock %}
 
+{% block end_head %}
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{% static 'AdminLTE2/plugins/iCheck/square/blue.css' %}">
+{% endblock %}
 
- <div id="age">
- <ul class="checkbox-list">
- <li>
-  <label for="noPref">
-   <input type="radio" id="noPref" name="preference" checked>No Preference
-  </label>
- </li>
- <li>
-  <label for="13under">
-   <input type="radio" id="13under" name="preference">13 and under
-  </label>
- </li>
- <li>
-  <label for="14+">
-   <input type="radio" id="14+" name="preference">Over 13
-  </label>
- </li>
-</ul>
-  <input type="submit" value="Submit">
-</div>
- </form>
+{% block page_header %}
+  Availability
+{% endblock %}
 
+{% block page_description %}
 
-</body>
-</html>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <form>
+      {% csrf_token %}
+
+      <div class="row">
+        {% for week in weeks %}
+          <div class="col-md-3">
+            <div class="box box-primary">
+              <div class="box-header">
+                <h3 class="box-title">Week {{ week }}</h3>
+              </div>
+              <div class="box-body">
+                <ul style="list-style-type: none">
+                  <li>
+                    <input id="week_{{ week }}_morning" type="checkbox">
+                    <label for="week_{{ week }}_morning">Morning</label>
+                  </li>
+                  <li>
+                    <input id="week_{{ week }}_morning" type="checkbox">
+                    <label for="week_{{ week }}_afternoon">Afternoon</label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+        <div class="col-md-3">
+          <div class="box box-primary">
+            <div class="box-header">
+              <div class="box-title">
+                Age Preferences
+              </div>
+              <div class="box-body">
+                <ul style="list-style-type: none">
+{#                  <li>#}
+{#                    <input id="week_{{ week }}_no_preference" type="checkbox">#}
+{#                    <label for="week_{{ week }}_no_preference">No Preference</label>#}
+{#                  </li>#}
+                  <li>
+                    <input id="week_{{ week }}_13_and_under" type="checkbox">
+                    <label for="week_{{ week }}_13_and_under">13 and Younger</label>
+                  </li>
+                  <li>
+                    <input id="week_{{ week }}_over_13" type="checkbox">
+                    <label for="week_{{ week }}_over_13">Over 13</label>
+                  </li>
+                </ul>
+              </div>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block copyright %}
+
+{% endblock %}
+
+{% block javascript %}
+  <!-- iCheck -->
+  <script src="{% static 'AdminLTE2/plugins/iCheck/icheck.min.js' %}"></script>
+  <script>
+    $(function () {
+      $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' // optional
+      });
+    });
+  </script>
+{% endblock %}
