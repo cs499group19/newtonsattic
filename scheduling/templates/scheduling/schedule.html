@@ -53,14 +53,14 @@
                         </div>
                       </div>
                       <div class="box-body">
-                        <ul>
-                          <li>{{ week }}</li>
+                        <ul id="time" style="list-style-type:none">
+                          <!--div>{{ week }}</div-->
                         </ul>
                       </div>
                     </div>
                   {% endfor %}
                 </div>
-                <div class="col-md-4">
+                <div id="allCourses" class="col-md-4">
                   {% for class in Class %}
                   <!-- begin box-->
                   <div class="box box-default collapsed-box course">
@@ -73,7 +73,7 @@
                       </div>
                     </div>
                     <div class="box-body">
-                      <ul>
+                      <ul id="course" style="list-style-type:circle">
                         <li>Age Group: {{ class.age_group }}</li>
                       </ul>
                     </div>
