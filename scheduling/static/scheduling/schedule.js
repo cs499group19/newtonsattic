@@ -12,6 +12,12 @@ function parseDatabaseData(data)
     return rv;
 }
 
+
+function alert()
+{
+
+}
+
 //All of the following functions use jQuery
 $(function() {
     //Declares which classes are draggable and how they will be implemented
@@ -43,6 +49,18 @@ $(function() {
           console.log($week);*/
           $item.fadeOut(function() {
               var $list = $( "ul[id='time']", $week );
+              var r = new RegExp('.+(Build).+');
+              var s = new RegExp('.+(Morning).+');
+
+              if (r.test($($item).context.innerText) && s.test($($week).context.innerHTML))
+              {
+                  var result = confirm('The instructor for this class is not available for this time of day. Are you sure you want to do this?');
+                  if (!result)
+                  {
+                      removeFromCalendar($item, $('#allCourses'));
+                      return;
+                  }
+              }
               $item.appendTo( $list ).fadeIn(function() {
                 /* --optional animation to modify later if we choose
                 $item
