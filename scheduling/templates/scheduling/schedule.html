@@ -63,7 +63,7 @@
                 <div id="allCourses" class="col-md-4">
                   {% for class in Class %}
                   <!-- begin box-->
-                  <div class="box box-default collapsed-box course">
+                  <div class="box box-primary collapsed-box course">
                     <div class="box-header with-border">
                       <h3 class="box-title">{{ class.name }}</h3>
                       <div class="box-tools pull-right">
@@ -75,6 +75,14 @@
                     <div class="box-body">
                       <ul id="course" style="list-style-type:circle">
                         <li>Age Group: {{ class.age_group }}</li>
+                        <li>
+                          Instructor:
+                          <ul>
+                            {% for instructor in class.specialities.all %}
+                              <li>{{ instructor.name }}</li>
+                            {% endfor %}
+                          </ul>
+                        </li>
                       </ul>
                     </div>
                   </div>

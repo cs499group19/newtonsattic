@@ -16,10 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.conf.urls import include
 from django.contrib import admin
+from scheduling.admin import admin_site
 
 urlpatterns = [
     url(r'^', include('scheduling.urls')),
     url('^', include('django.contrib.auth.urls')),
-    url(r'^admin/', admin.site.urls),
+    # url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin_site.urls),
     url(r'^scheduling/', include('scheduling.urls')),
 ]

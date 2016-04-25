@@ -6,10 +6,6 @@ from datetime import date
 # Create your models here.
 
 
-class Availability(models.Model):
-    instructor = models.OneToOneField
-
-
 class Classroom(models.Model):
     name = models.CharField(max_length=255)
     capacity = models.IntegerField(default=0)
