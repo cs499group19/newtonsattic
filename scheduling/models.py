@@ -46,7 +46,7 @@ class Instructor(models.Model):
     age_preferences = models.IntegerField(default=0)  # I'm assuming this would just be an age number
     # that they wouldn't want to teach below... We need to ask Dawn how she wants to do it
     availability = ArrayField(
-        models.IntegerField()
+        models.CharField(max_length=5)
     )
 
     # Dawn was assuming specialty was just the classes they could teach
