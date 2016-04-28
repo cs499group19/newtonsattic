@@ -64,31 +64,29 @@
                 <div id="allCourses" class="col-md-4">
                   <h3>Available Courses</h3>
                   {% for class in sorted|get_item:week %}
-                  <!-- begin box-->
-                  <div class="box box-primary collapsed-box course">
-                    <div class="box-header with-border">
-                      <h3 class="box-title">{{ class.name }}</h3>
-                      <div class="box-tools pull-right">
-                        <button class="btn btn-box-tool" data-widget="collapse">
-                          <i class="fa fa-minus"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="box-body">
-                      <ul id="course" style="list-style-type: circle">
-                        <li>Age Group: {{ class.age_group }}</li>
-                        <li>
-                          Instructor:
-                          <ul>
-                            {% for instructor in class.specialities.all %}
-                              <li class="intructor-name">{{ instructor.name }}</li>
-                            {% endfor %}
-                          </ul>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <!-- end box -->
+                    {% for instructors in sorted|get_item:week|get_item:class %}
+                      {% for room in class.room_requirement.all %}
+                        <!-- begin box-->
+                        <div class="box box-primary collapsed-box course">
+                          <div class="box-header with-border">
+                            <h3 class="box-title">{{ class.name }}</h3>
+                            <div class="box-tools pull-right">
+                              <button class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="box-body">
+                            <ul id="course" style="list-style-type: circle">
+                              <li>Age Group: {{ class.age_group }}</li>
+                              <li>Instructor: {{ instructors.name }}</li>
+                              <li>Classroom: {{ room.name }}</li>
+                            </ul>
+                          </div>
+                        </div>
+                        <!-- end box -->
+                      {% endfor %}
+                    {% endfor %}
                   {% endfor %}
                 </div>
               </div>
