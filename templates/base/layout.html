@@ -63,7 +63,7 @@ desired effect
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="{% url 'index' %}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>N</b>A</span>
       <!-- logo for regular state and mobile devices -->
@@ -98,9 +98,9 @@ desired effect
             </ul>
           </li>
           <!-- Control Sidebar Toggle Button -->
-{#          <li>#}
-{#            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>#}
-{#          </li>#}
+          {#          <li>#}
+          {#            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>#}
+          {#          </li>#}
         </ul>
       </div>
     </nav>
@@ -118,13 +118,13 @@ desired effect
         <li class=""><a href="{% url 'index' %}"><i class="fa fa-link"></i> <span>Scheduling</span></a></li>
         <li><a href="{% url 'admin:index' %}"><i class="fa fa-link"></i> <span>Admin Area</span></a></li>
         <li><a href="{% url 'logout' %}"><i class="fa fa-link"></i> <span>Sign Out</span></a></li>
-{#        <li class="treeview">#}
-{#          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>#}
-{#          <ul class="treeview-menu">#}
-{#            <li><a href="#">Link in level 2</a></li>#}
-{#            <li><a href="#">Link in level 2</a></li>#}
-{#          </ul>#}
-{#        </li>#}
+        {#        <li class="treeview">#}
+        {#          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>#}
+        {#          <ul class="treeview-menu">#}
+        {#            <li><a href="#">Link in level 2</a></li>#}
+        {#            <li><a href="#">Link in level 2</a></li>#}
+        {#          </ul>#}
+        {#        </li>#}
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -149,8 +149,30 @@ desired effect
     <section class="content">
 
       <!-- Your Page Content Here -->
-        {% block content %}
-        {% endblock %}
+      {% if messages %}
+        <div class="row">
+          <div class="col-md-12">
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {% if message.tags == 'danger' %}
+                  <h4><i class="icon fa fa-ban"></i> There was a problem with your request...</h4>
+                {% elif message.tags == 'info' %}
+                  <h4><i class="icon fa fa-info"></i> Information</h4>
+                {% elif message.tags == 'warning' %}
+                  <h4><i class="icon fa fa-warning"></i> Warning!</h4>
+                {% elif message.tags == 'success' %}
+                  <h4><i class="icon fa fa-check"></i> Success!</h4>
+                {% endif %}
+
+                <p>{{ message }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+      {% block content %}
+      {% endblock %}
 
     </section>
     <!-- /.content -->
@@ -167,80 +189,80 @@ desired effect
     </div>
     <!-- Default to the left -->
     {% block copyright %}
-        <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
+      <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
     {% endblock %}
   </footer>
 
   <!-- Control Sidebar -->
-{#  <aside class="control-sidebar control-sidebar-dark">#}
-{#    <!-- Create the tabs -->#}
-{#    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">#}
-{#      <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>#}
-{#      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>#}
-{#    </ul>#}
-{#    <!-- Tab panes -->#}
-{#    <div class="tab-content">#}
-{#      <!-- Home tab content -->#}
-{#      <div class="tab-pane active" id="control-sidebar-home-tab">#}
-{#        <h3 class="control-sidebar-heading">Recent Activity</h3>#}
-{#        <ul class="control-sidebar-menu">#}
-{#          <li>#}
-{#            <a href="javascript::;">#}
-{#              <i class="menu-icon fa fa-birthday-cake bg-red"></i>#}
-{##}
-{#              <div class="menu-info">#}
-{#                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>#}
-{##}
-{#                <p>Will be 23 on April 24th</p>#}
-{#              </div>#}
-{#            </a>#}
-{#          </li>#}
-{#        </ul>#}
-{#        <!-- /.control-sidebar-menu -->#}
-{##}
-{#        <h3 class="control-sidebar-heading">Tasks Progress</h3>#}
-{#        <ul class="control-sidebar-menu">#}
-{#          <li>#}
-{#            <a href="javascript::;">#}
-{#              <h4 class="control-sidebar-subheading">#}
-{#                Custom Template Design#}
-{#                <span class="label label-danger pull-right">70%</span>#}
-{#              </h4>#}
-{##}
-{#              <div class="progress progress-xxs">#}
-{#                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>#}
-{#              </div>#}
-{#            </a>#}
-{#          </li>#}
-{#        </ul>#}
-{#        <!-- /.control-sidebar-menu -->#}
-{##}
-{#      </div>#}
-{#      <!-- /.tab-pane -->#}
-{#      <!-- Stats tab content -->#}
-{#      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>#}
-{#      <!-- /.tab-pane -->#}
-{#      <!-- Settings tab content -->#}
-{#      <div class="tab-pane" id="control-sidebar-settings-tab">#}
-{#        <form method="post">#}
-{#          <h3 class="control-sidebar-heading">General Settings</h3>#}
-{##}
-{#          <div class="form-group">#}
-{#            <label class="control-sidebar-subheading">#}
-{#              Report panel usage#}
-{#              <input type="checkbox" class="pull-right" checked>#}
-{#            </label>#}
-{##}
-{#            <p>#}
-{#              Some information about this general settings option#}
-{#            </p>#}
-{#          </div>#}
-{#          <!-- /.form-group -->#}
-{#        </form>#}
-{#      </div>#}
-{#      <!-- /.tab-pane -->#}
-{#    </div>#}
-{#  </aside>#}
+  {#  <aside class="control-sidebar control-sidebar-dark">#}
+  {#    <!-- Create the tabs -->#}
+  {#    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">#}
+  {#      <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>#}
+  {#      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>#}
+  {#    </ul>#}
+  {#    <!-- Tab panes -->#}
+  {#    <div class="tab-content">#}
+  {#      <!-- Home tab content -->#}
+  {#      <div class="tab-pane active" id="control-sidebar-home-tab">#}
+  {#        <h3 class="control-sidebar-heading">Recent Activity</h3>#}
+  {#        <ul class="control-sidebar-menu">#}
+  {#          <li>#}
+  {#            <a href="javascript::;">#}
+  {#              <i class="menu-icon fa fa-birthday-cake bg-red"></i>#}
+  {##}
+  {#              <div class="menu-info">#}
+  {#                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>#}
+  {##}
+  {#                <p>Will be 23 on April 24th</p>#}
+  {#              </div>#}
+  {#            </a>#}
+  {#          </li>#}
+  {#        </ul>#}
+  {#        <!-- /.control-sidebar-menu -->#}
+  {##}
+  {#        <h3 class="control-sidebar-heading">Tasks Progress</h3>#}
+  {#        <ul class="control-sidebar-menu">#}
+  {#          <li>#}
+  {#            <a href="javascript::;">#}
+  {#              <h4 class="control-sidebar-subheading">#}
+  {#                Custom Template Design#}
+  {#                <span class="label label-danger pull-right">70%</span>#}
+  {#              </h4>#}
+  {##}
+  {#              <div class="progress progress-xxs">#}
+  {#                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>#}
+  {#              </div>#}
+  {#            </a>#}
+  {#          </li>#}
+  {#        </ul>#}
+  {#        <!-- /.control-sidebar-menu -->#}
+  {##}
+  {#      </div>#}
+  {#      <!-- /.tab-pane -->#}
+  {#      <!-- Stats tab content -->#}
+  {#      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>#}
+  {#      <!-- /.tab-pane -->#}
+  {#      <!-- Settings tab content -->#}
+  {#      <div class="tab-pane" id="control-sidebar-settings-tab">#}
+  {#        <form method="post">#}
+  {#          <h3 class="control-sidebar-heading">General Settings</h3>#}
+  {##}
+  {#          <div class="form-group">#}
+  {#            <label class="control-sidebar-subheading">#}
+  {#              Report panel usage#}
+  {#              <input type="checkbox" class="pull-right" checked>#}
+  {#            </label>#}
+  {##}
+  {#            <p>#}
+  {#              Some information about this general settings option#}
+  {#            </p>#}
+  {#          </div>#}
+  {#          <!-- /.form-group -->#}
+  {#        </form>#}
+  {#      </div>#}
+  {#      <!-- /.tab-pane -->#}
+  {#    </div>#}
+  {#  </aside>#}
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->

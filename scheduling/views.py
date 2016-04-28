@@ -29,7 +29,9 @@ def create_new_schedule(request):
     schedule = models.Schedule(name=name)
     schedule.save()
 
-    return HttpResponseRedirect(reverse('load_schedule', args=(schedule.id,)))
+    messages.success(request, 'Schedule "{}" has been created!'.format(name))
+
+    return HttpResponseRedirect(reverse('edit_schedule', args=(schedule.id,)))
 
 
 @login_required(login_url='/login/')
@@ -67,4 +69,8 @@ def edit_schedule(request, schedule_id):
 
 @login_required(login_url='/login/')
 def instructor_availability(request):
+    if request.POST:
+        messages.success(request, 'Your schedule availability has been updated!')
+        times = filter(lambda t: t[0].isdigit() and t[-1] in 'ma', request.POST.keys())
+
     return render(request, 'scheduling/availability.html', {'weeks': range(1, 13)})
