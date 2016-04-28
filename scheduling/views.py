@@ -88,19 +88,22 @@ def edit_schedule(request, schedule_id):
 def instructor_availability(request):
     context = {
         'weeks': range(1, 13),
-        'checked': {}
     }
 
     if not hasattr(request.user, 'instructor'):
         messages.warning(request, 'There is no instructor associated with your user account.')
-    else:
-        print(request.user.instructor.availability)
+        return render(request, 'scheduling/availability.html', context)
 
     if request.POST:
         messages.success(request, 'Your schedule availability has been updated!')
-        times = filter(lambda t: t[0].isdigit() and t[-1] in 'ma', request.POST.keys())
+        times = list(filter(lambda t: t[0].isdigit() and t[-1] in 'ma', request.POST.keys()))
 
-    return render(request, 'scheduling/availability.html', {'weeks': range(1, 13)})
+        request.user.instructor.availability = times
+        request.user.instructor.save()
+
+    context['checked'] = request.user.instructor.availability
+
+    return render(request, 'scheduling/availability.html', context)
 
 
 def logout(request):

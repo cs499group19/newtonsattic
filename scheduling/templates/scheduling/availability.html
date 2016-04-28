@@ -1,5 +1,6 @@
 {% extends 'base/layout.html' %}
 {% load staticfiles %}
+{% load strings %}
 
 {% block title %}Instructor Availability{% endblock %}
 
@@ -30,11 +31,11 @@
             <div class="box-body">
               <ul style="list-style-type: none">
                 <li>
-                  <input id="week_{{ week }}_morning" name="{{ week }}m" type="checkbox" {% if week|add:'m' in checked%}checked{% endif %}>
+                  <input id="week_{{ week }}_morning" name="{{ week }}m" type="checkbox" {% if week|to_str|add:'m' in checked %}checked{% endif %}>
                   <label for="week_{{ week }}_morning">Morning</label>
                 </li>
                 <li>
-                  <input id="week_{{ week }}_afternoon" name="{{ week }}a" type="checkbox">
+                  <input id="week_{{ week }}_afternoon" name="{{ week }}a" type="checkbox" {% if week|to_str|add:'a' in checked %}checked{% endif %}>
                   <label for="week_{{ week }}_afternoon">Afternoon</label>
                 </li>
               </ul>
