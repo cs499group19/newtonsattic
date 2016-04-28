@@ -49,7 +49,7 @@ class Class(models.Model):
 # Will this table also be used for helpers? Or a different one?
 # If we use the same, maybe we should have a boolean saying if they need to specialize at all
 class Instructor(models.Model):
-    user = models.OneToOneField(User, default=None, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     availability = ArrayField(
         models.CharField(max_length=5)
