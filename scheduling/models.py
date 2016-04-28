@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
@@ -35,6 +36,7 @@ class Schedule(models.Model):
 
 class Class(models.Model):
     name = models.CharField(max_length=255)
+
     age_group = models.CharField(max_length=10)  # Just a written '??-??'
 
     # Room requirements need to match the actual classrooms
@@ -47,9 +49,12 @@ class Class(models.Model):
 # Will this table also be used for helpers? Or a different one?
 # If we use the same, maybe we should have a boolean saying if they need to specialize at all
 class Instructor(models.Model):
-    name = models.CharField(max_length=255)
+    user = models.OneToOneField(User, default=None, on_delete=models.CASCADE)
+
+    # name = models.CharField(max_length=255)
+
     age_preferences = models.IntegerField(default=0)  # I'm assuming this would just be an age number
-    # that they wouldn't want to teach below... We need to ask Dawn how she wants to do it
+
     availability = ArrayField(
         models.CharField(max_length=5)
     )
