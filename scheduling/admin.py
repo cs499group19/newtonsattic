@@ -1,11 +1,9 @@
-from django.contrib import admin
 from django.contrib.admin import AdminSite
 
-from .models import Classroom
-from .models import Schedule
 from .models import Class
+from .models import Classroom
 from .models import Instructor
-# from .models import Document
+from .models import Schedule
 
 
 class SchedulingAdmin(AdminSite):
@@ -14,8 +12,6 @@ class SchedulingAdmin(AdminSite):
 
 
 admin_site = SchedulingAdmin(name='scheduling_admin')
-# Register your models here.
-
 
 admin_site.register(Classroom)
 admin_site.register(Schedule)

@@ -6,7 +6,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('scheduling', '0002_class_document_instructor_schedule'),
     ]

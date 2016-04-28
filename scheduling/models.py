@@ -1,6 +1,7 @@
-from django.db import models
-from django.contrib.postgres.fields import ArrayField
 from datetime import date
+
+from django.contrib.postgres.fields import ArrayField
+from django.db import models
 
 
 class Classroom(models.Model):

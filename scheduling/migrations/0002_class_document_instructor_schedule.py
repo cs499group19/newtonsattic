@@ -3,12 +3,11 @@
 from __future__ import unicode_literals
 
 import django.contrib.postgres.fields
-from django.db import migrations, models
 import django.db.models.deletion
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('scheduling', '0001_initial'),
     ]
@@ -38,7 +37,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
                 ('age_preferences', models.IntegerField(default=0)),
-                ('availability', django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(), size=None)),
+                (
+                'availability', django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(), size=None)),
                 ('specialty', models.ManyToManyField(related_name='specialities', to='scheduling.Class')),
             ],
         ),
