@@ -16,8 +16,12 @@ from . import models
 
 @login_required(login_url='/login/')
 def index(request):
+    # Get all available schedules from database.
+    # Used to populate load select box.
     context = {'schedules': models.Schedule.objects.all()}
 
+    # If the user does not have permission to alter schedule objects,
+    # (i.e. an instructor) redirect them to availability page.
     if not request.user.has_perm('scheduling.change_schedule'):
         return HttpResponseRedirect(reverse('availability'))
 
@@ -26,19 +30,27 @@ def index(request):
 
 @login_required(login_url='/login/')
 def create_new_schedule(request):
-    name = request.POST.get('name')
+    # We only want to process POST requests.
+    if request.POST:
 
-    if name is None or not name.strip():
-        messages.error(request, 'Schedule name must not be blank.')
+        # Get name from form.
+        name = request.POST.get('name')
 
-        return HttpResponseRedirect(reverse('index'))
+        # if the name is empty, error.
+        if name is None or not name.strip():
+            messages.error(request, 'Schedule name must not be blank.')
 
-    schedule = models.Schedule(name=name)
-    schedule.save()
+            return HttpResponseRedirect(reverse('index'))
 
-    messages.success(request, 'Schedule "{}" has been created!'.format(name))
+        # Otherwise, create a schedule with specified name.
+        schedule = models.Schedule(name=name)
+        schedule.save()
 
-    return HttpResponseRedirect(reverse('edit_schedule', args=(schedule.id,)))
+        messages.success(request, 'Schedule "{}" has been created!'.format(name))
+
+        return HttpResponseRedirect(reverse('edit_schedule', args=(schedule.id,)))
+
+    return HttpResponseRedirect(reverse('index'))
 
 
 @login_required(login_url='/login/')
@@ -98,30 +110,42 @@ def instructor_availability(request):
         'weeks': range(1, 13),
     }
 
+    # if there is no instructor object attached to this user,
+    # display a warning and return. We do not want to attempt to
+    # load/store data in this case.
     if not hasattr(request.user, 'instructor'):
         messages.warning(request, 'There is no instructor associated with your user account.')
         return render(request, 'scheduling/availability.html', context)
 
+    # If this is a POST request, we are storing data.
     if request.POST:
-        messages.success(request, 'Your schedule availability has been updated!')
+        # get all inputs of the form \d[am]
         times = list(filter(lambda t: t[0].isdigit() and t[-1] in 'ma', request.POST.keys()))
 
+        # set availabilities for logged in user
         request.user.instructor.availability = times
         request.user.instructor.save()
 
+        messages.success(request, 'Your schedule availability has been updated!')
+
+    # get availabilities for current user
+    # used to pre check the boxes they have selected previously.
     context['checked'] = request.user.instructor.availability
 
     return render(request, 'scheduling/availability.html', context)
 
 
 def register_user(request):
+    # if this is a post request, we want to create a user.
     if request.POST:
+        # get values submitted from form.
         first_name = request.POST.get('first_name', '')
         last_name = request.POST.get('last_name', '')
         user_name = request.POST.get('username', '')
         email = request.POST.get('email', '')
         password = request.POST.get('password', '')
 
+        # create a user in the database with supplied information
         new_user = models.User.objects.create_user(user_name, email, password)
         new_user.first_name = first_name
         new_user.last_name = last_name
@@ -132,6 +156,7 @@ def register_user(request):
 
         return HttpResponseRedirect(reverse('login'))
 
+    # Otherwise, display registration form.
     return render(request, 'scheduling/registration.html')
 
 
