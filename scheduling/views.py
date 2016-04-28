@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
+import django.contrib.auth
 
 from . import models
 
@@ -85,8 +86,24 @@ def edit_schedule(request, schedule_id):
 
 @login_required(login_url='/login/')
 def instructor_availability(request):
+    context = {
+        'weeks': range(1, 13),
+        'checked': {}
+    }
+
+    if not hasattr(request.user, 'instructor'):
+        messages.warning(request, 'There is no instructor associated with your user account.')
+    else:
+        print(request.user.instructor.availability)
+
     if request.POST:
         messages.success(request, 'Your schedule availability has been updated!')
         times = filter(lambda t: t[0].isdigit() and t[-1] in 'ma', request.POST.keys())
 
     return render(request, 'scheduling/availability.html', {'weeks': range(1, 13)})
+
+
+def logout(request):
+    django.contrib.auth.logout(request)
+
+    return HttpResponseRedirect(reverse('login'))

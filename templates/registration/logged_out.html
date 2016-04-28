@@ -1,0 +1,53 @@
+{% extends 'base/layout.html' %}
+{% load staticfiles %}
+
+{% block title %}
+  Logged Out
+{% endblock %}
+
+{% block end_head %}
+
+{% endblock %}
+
+{% block page_header %}
+  Logged Out
+{% endblock %}
+
+{% block page_description %}
+
+{% endblock %}
+
+{% block content %}
+  <div content="row">
+    <h3>You have been logged out.</h3>
+    <p>You will be redirected in <span id="seconds"></span>...</p>
+  </div>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block copyright %}
+
+{% endblock %}
+
+{% block javascript %}
+  <script type="text/javascript">
+    var secondsLeft = 5;
+    var redirect = function (where) {
+      window.location = where;
+    };
+
+    $('#seconds').text(secondsLeft);
+
+    window.setInterval(function () {
+      secondsLeft--;
+      $('#seconds').text(secondsLeft);
+    }, 1000);
+
+    window.setTimeout(function () {
+      redirect('/login/');
+    }, 5 * 1000);
+  </script>
+{% endblock %}

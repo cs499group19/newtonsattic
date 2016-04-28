@@ -59,7 +59,7 @@ class Instructor(models.Model):
     specialty = models.ManyToManyField(Class, related_name='specialities')
 
     def __str__(self):
-        return self.user.name
+        return self.user.username
 
 
 class Document(models.Model):

@@ -133,4 +133,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = '/'
+# Auth url settings
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'login'
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
