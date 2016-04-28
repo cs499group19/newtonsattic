@@ -1,4 +1,6 @@
+from django.contrib import admin
 from django.contrib.admin import AdminSite
+from django.contrib.auth.models import User
 
 from .models import Class
 from .models import Classroom
@@ -13,6 +15,7 @@ class SchedulingAdmin(AdminSite):
 
 admin_site = SchedulingAdmin(name='scheduling_admin')
 
+admin_site.register(User)
 admin_site.register(Classroom)
 admin_site.register(Schedule)
 admin_site.register(Class)
