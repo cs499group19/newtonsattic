@@ -40,10 +40,33 @@
     {% if next %}
       {% if user.is_authenticated %}
         <div class="callout callout-danger">Your account doesn't have access to this page. To proceed,
-          please login with an account that has access.</div>
+          please login with an account that has access.
+        </div>
       {% else %}
         <div class="callout callout-danger">Please login to see this page.</div>
       {% endif %}
+    {% endif %}
+    {% if messages %}
+      <div class="row">
+        <div class="col-md-12">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              {% if message.tags == 'danger' %}
+                <h4><i class="icon fa fa-ban"></i> There was a problem with your request...</h4>
+              {% elif message.tags == 'info' %}
+                <h4><i class="icon fa fa-info"></i> Information</h4>
+              {% elif message.tags == 'warning' %}
+                <h4><i class="icon fa fa-warning"></i> Warning!</h4>
+              {% elif message.tags == 'success' %}
+                <h4><i class="icon fa fa-check"></i> Success!</h4>
+              {% endif %}
+
+              <p>{{ message }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
     {% endif %}
     <p class="login-box-msg">Sign in to start your session</p>
 
@@ -68,7 +91,8 @@
     </form>
 
     {# Assumes you setup the password_reset view in your URLconf #}
-    <p><a href="{% url 'password_reset' %}">Lost password?</a> or <a href="{% url 'register_user' %}">Register an account.</a></p>
+    <p><a href="{% url 'password_reset' %}">Lost password?</a> or <a href="{% url 'register_user' %}">Register an
+      account.</a></p>
 
   </div>
   <!-- /.login-box-body -->
