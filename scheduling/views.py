@@ -18,6 +18,9 @@ from . import models
 def index(request):
     context = {'schedules': models.Schedule.objects.all()}
 
+    if not request.user.has_perm('scheduling.change_schedule'):
+        return HttpResponseRedirect(reverse('availability'))
+
     return render(request, 'scheduling/index.html', context)
 
 
