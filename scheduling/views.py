@@ -46,7 +46,18 @@ def index(request):
 
     pprint.pprint(context['sorted'])
 
-    return render(request, 'scheduling/schedule.html', context)
+    # return render(request, 'scheduling/schedule.html', context)
+    return render(request, 'scheduling/index.html', context)
+
+
+@login_required(login_url='/login/')
+def create_new_schedule(request):
+    pass
+
+
+@login_required(login_url='/login/')
+def load_schedule(request, schedule_id):
+    return
 
 
 @login_required(login_url='/login/')
