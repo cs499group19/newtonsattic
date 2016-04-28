@@ -88,6 +88,11 @@ def edit_schedule(request, schedule_id):
 
 
 @login_required(login_url='/login/')
+def save_schedule(request, schedule_id):
+    pass
+
+
+@login_required(login_url='/login/')
 def instructor_availability(request):
     context = {
         'weeks': range(1, 13),
@@ -107,6 +112,27 @@ def instructor_availability(request):
     context['checked'] = request.user.instructor.availability
 
     return render(request, 'scheduling/availability.html', context)
+
+
+def register_user(request):
+    if request.POST:
+        first_name = request.POST.get('first_name', '')
+        last_name = request.POST.get('last_name', '')
+        user_name = request.POST.get('username', '')
+        email = request.POST.get('email', '')
+        password = request.POST.get('password', '')
+
+        new_user = models.User.objects.create_user(user_name, email, password)
+        new_user.first_name = first_name
+        new_user.last_name = last_name
+
+        new_user.save()
+
+        messages.success(request, 'Account created successfully!')
+
+        return HttpResponseRedirect(reverse('login'))
+
+    return render(request, 'scheduling/registration.html')
 
 
 def logout(request):

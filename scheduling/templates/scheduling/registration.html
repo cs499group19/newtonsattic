@@ -31,26 +31,49 @@
   <div class="login-logo">
     <a href="#"><b>Newton's </b>Attic</a>
   </div>
+  {% if messages %}
+    <div class="row">
+      <div class="col-md-12">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {% if message.tags == 'danger' %}
+              <h4><i class="icon fa fa-ban"></i> There was a problem with your request...</h4>
+            {% elif message.tags == 'info' %}
+              <h4><i class="icon fa fa-info"></i> Information</h4>
+            {% elif message.tags == 'warning' %}
+              <h4><i class="icon fa fa-warning"></i> Warning!</h4>
+            {% elif message.tags == 'success' %}
+              <h4><i class="icon fa fa-check"></i> Success!</h4>
+            {% endif %}
+
+            <p>{{ message }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
   <!-- /.login-logo -->
   <div class="login-box-body">
-    {% if form.errors %}
-      <div class="callout callout-danger">Your username and password didn't match. Please try again.</div>
-    {% endif %}
+    <p class="login-box-msg">Registration</p>
 
-    {% if next %}
-      {% if user.is_authenticated %}
-        <div class="callout callout-danger">Your account doesn't have access to this page. To proceed,
-          please login with an account that has access.</div>
-      {% else %}
-        <div class="callout callout-danger">Please login to see this page.</div>
-      {% endif %}
-    {% endif %}
-    <p class="login-box-msg">Sign in to start your session</p>
-
-    <form action="{% url 'login' %}" method="post">
+    <form action="{% url 'register_user' %}" method="post">
       {% csrf_token %}
       <div class="form-group has-feedback">
+        <input id="id_username" type="text" name="first_name" class="form-control" placeholder="First Name">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input id="id_username" type="text" name="last_name" class="form-control" placeholder="Last Name">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+
+      <div class="form-group has-feedback">
         <input id="id_username" type="text" name="username" class="form-control" placeholder="Username">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input id="id_username" type="email" name="email" class="form-control" placeholder="Email">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
@@ -60,16 +83,12 @@
       <div class="row">
         <!-- /.col -->
         <div class="col-xs-12">
-          <button type="submit" value="login" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" value="login" class="btn btn-primary btn-block btn-flat">Register</button>
           <input type="hidden" name="next" value="{{ next }}"/>
         </div>
         <!-- /.col -->
       </div>
     </form>
-
-    {# Assumes you setup the password_reset view in your URLconf #}
-    <p><a href="{% url 'password_reset' %}">Lost password?</a> or <a href="{% url 'register_user' %}">Register an account.</a></p>
-
   </div>
   <!-- /.login-box-body -->
 </div>

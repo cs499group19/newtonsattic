@@ -17,81 +17,85 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
-          {% for week in weeks %}
-            <li role="presentation">
-              <a href="#week-{{ week }}"
-                 aria-controls="week-{{ week }}"
-                 role="tab"
-                 data-toggle="tab"
-              >
-                Week {{ week }}
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
+  <div class="row">
+    <div class="col-md-4">
+      <button id="btn-schedule-save" class="btn btn-success">Save</button>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="tab-content">
-          {% for week in weeks %}
-            <div role="tabpanel" class="tab-pane" id="week-{{ week }}">
-              <div class="row">
-                <div class="col-md-6">
-                  {% for time in times %}
-                    <div class="box box-default time">
-                      <div class="box-header with-border">
-                        <h3 class="box-title">{{ time }}</h3>
-                        <div class="box-tools pull-right">
-                          <button class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-minus"></i>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="box-body">
-                        <ul id="time" style="list-style-type:none">
-                          <!--div>{{ week }}</div-->
-                        </ul>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
+        {% for week in weeks %}
+          <li role="presentation">
+            <a href="#week-{{ week }}"
+               aria-controls="week-{{ week }}"
+               role="tab"
+               data-toggle="tab"
+            >
+              Week {{ week }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tab-content">
+        {% for week in weeks %}
+          <div role="tabpanel" class="tab-pane" id="week-{{ week }}">
+            <div class="row">
+              <div class="col-md-6">
+                {% for time in times %}
+                  <div class="box box-default time">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">{{ time }}</h3>
+                      <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse">
+                          <i class="fa fa-minus"></i>
+                        </button>
                       </div>
                     </div>
-                  {% endfor %}
-                </div>
-                <div id="allCourses" class="col-md-4">
-                  <h3>Available Courses</h3>
-                  {% for class in sorted|get_item:week %}
-                    {% for instructors in sorted|get_item:week|get_item:class %}
-                      {% for room in class.room_requirement.all %}
-                        <!-- begin box-->
-                        <div class="box box-primary collapsed-box course">
-                          <div class="box-header with-border">
-                            <h3 class="box-title">{{ class.name }}</h3>
-                            <div class="box-tools pull-right">
-                              <button class="btn btn-box-tool" data-widget="collapse">
-                                <i class="fa fa-minus"></i>
-                              </button>
-                            </div>
-                          </div>
-                          <div class="box-body">
-                            <ul id="course" style="list-style-type: circle">
-                              <li>Age Group: {{ class.age_group }}</li>
-                              <li>Instructor: {{ instructors.name }}</li>
-                              <li>Classroom: {{ room.name }}</li>
-                            </ul>
+                    <div class="box-body">
+                      <ul id="time" style="list-style-type:none">
+                        <!--div>{{ week }}</div-->
+                      </ul>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+              <div id="allCourses" class="col-md-4">
+                <h3>Available Courses</h3>
+                {% for class in sorted|get_item:week %}
+                  {% for instructors in sorted|get_item:week|get_item:class %}
+                    {% for room in class.room_requirement.all %}
+                      <!-- begin box-->
+                      <div class="box box-primary collapsed-box course">
+                        <div class="box-header with-border">
+                          <h3 class="box-title">{{ class.name }}</h3>
+                          <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse">
+                              <i class="fa fa-minus"></i>
+                            </button>
                           </div>
                         </div>
-                        <!-- end box -->
-                      {% endfor %}
+                        <div class="box-body">
+                          <ul id="course" style="list-style-type: circle">
+                            <li>Age Group: {{ class.age_group }}</li>
+                            <li>Instructor: {{ instructors.name }}</li>
+                            <li>Classroom: {{ room.name }}</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <!-- end box -->
                     {% endfor %}
                   {% endfor %}
-                </div>
+                {% endfor %}
               </div>
             </div>
-          {% endfor %}
-        </div>
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -119,7 +123,7 @@
       $('a[role="tab"]:first').tab('show');
     });
   </script>
-    <script type="application/javascript">
+  <script type="application/javascript">
     var data = parseDatabaseData({{ data|safe }});
   </script>
 {% endblock %}
