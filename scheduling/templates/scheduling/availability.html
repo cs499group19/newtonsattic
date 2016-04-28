@@ -17,64 +17,37 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    <form>
-      {% csrf_token %}
+  <form role="form" action="{% url 'availability' %}" method="post">
+    {% csrf_token %}
 
-      <div class="row">
-        {% for week in weeks %}
-          <div class="col-md-3">
-            <div class="box box-primary">
-              <div class="box-header">
-                <h3 class="box-title">Week {{ week }}</h3>
-              </div>
-              <div class="box-body">
-                <ul style="list-style-type: none">
-                  <li>
-                    <input id="week_{{ week }}_morning" type="checkbox">
-                    <label for="week_{{ week }}_morning">Morning</label>
-                  </li>
-                  <li>
-                    <input id="week_{{ week }}_morning" type="checkbox">
-                    <label for="week_{{ week }}_afternoon">Afternoon</label>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-
+    <div class="row">
+      {% for week in weeks %}
         <div class="col-md-3">
           <div class="box box-primary">
             <div class="box-header">
-              <div class="box-title">
-                Age Preferences
-              </div>
-              <div class="box-body">
-                <ul style="list-style-type: none">
-{#                  <li>#}
-{#                    <input id="week_{{ week }}_no_preference" type="checkbox">#}
-{#                    <label for="week_{{ week }}_no_preference">No Preference</label>#}
-{#                  </li>#}
-                  <li>
-                    <input id="week_{{ week }}_13_and_under" type="checkbox">
-                    <label for="week_{{ week }}_13_and_under">13 and Younger</label>
-                  </li>
-                  <li>
-                    <input id="week_{{ week }}_over_13" type="checkbox">
-                    <label for="week_{{ week }}_over_13">Over 13</label>
-                  </li>
-                </ul>
-              </div>
-              <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
+              <h3 class="box-title">Week {{ week }}</h3>
+            </div>
+            <div class="box-body">
+              <ul style="list-style-type: none">
+                <li>
+                  <input id="week_{{ week }}_morning" name="{{ week }}m" type="checkbox" {% if week|add:'m' in checked%}checked{% endif %}>
+                  <label for="week_{{ week }}_morning">Morning</label>
+                </li>
+                <li>
+                  <input id="week_{{ week }}_afternoon" name="{{ week }}a" type="checkbox">
+                  <label for="week_{{ week }}_afternoon">Afternoon</label>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
+      {% endfor %}
+
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-block btn-primary">Submit</button>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 {% endblock %}
 
 {% block footer %}

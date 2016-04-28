@@ -3,12 +3,16 @@ from django.contrib.postgres.fields import ArrayField
 from datetime import date
 
 
-# Create your models here.
-
-
 class Classroom(models.Model):
     name = models.CharField(max_length=255)
     capacity = models.IntegerField(default=0)
+
+    def json_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'capacity': self.capacity
+        }
 
     def __str__(self):
         return self.name
