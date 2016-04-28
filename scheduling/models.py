@@ -51,10 +51,6 @@ class Class(models.Model):
 class Instructor(models.Model):
     user = models.OneToOneField(User, default=None, on_delete=models.CASCADE)
 
-    # name = models.CharField(max_length=255)
-
-    age_preferences = models.IntegerField(default=0)  # I'm assuming this would just be an age number
-
     availability = ArrayField(
         models.CharField(max_length=5)
     )
@@ -63,7 +59,7 @@ class Instructor(models.Model):
     specialty = models.ManyToManyField(Class, related_name='specialities')
 
     def __str__(self):
-        return self.name
+        return self.user.name
 
 
 class Document(models.Model):
