@@ -27,7 +27,7 @@ def index(request):
     }
 
     for week in context['weeks']:
-        context['sorted'][week] = []
+        context['sorted'][week] = {}
 
     for model in models:
         # Get all records associated with a particular model and serialize them.
@@ -36,7 +36,7 @@ def index(request):
         context[model.__name__] = records
         context['data'][model.__name__] = serializers.serialize('json', records)
 
-    import random
+    '''import random
     import pprint
     random.seed(15)
     for c in context['Class']:
@@ -44,6 +44,22 @@ def index(request):
             if random.random() > 0.51:
                 context['sorted'][week].append(c)
 
+    pprint.pprint(context['sorted'])'''
+
+    import pprint
+    import re
+    from scheduling.models import Instructor
+
+    for week in context['weeks']:
+        for instructor in Instructor.objects.all():
+            for a in instructor.availability:
+                myregex = re.escape(str(week))+"[am]"
+                if (re.match(myregex, a)):
+                    for c in instructor.specialty.all():
+                        if c in context['sorted'][week]:
+                            context['sorted'][week][c].append(instructor)
+                        else:
+                            context['sorted'][week][c] = [instructor]
     pprint.pprint(context['sorted'])
 
     return render(request, 'scheduling/schedule.html', context)
