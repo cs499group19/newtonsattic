@@ -84,7 +84,14 @@ desired effect
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Welcome, {{ request.user.username }}.</span>
+              <span class="hidden-xs">
+                  Welcome,
+                  {% if request.user.first_name %}
+                    {{ request.user.first_name }}
+                  {% else %}
+                    {{ request.user.username }}
+                  {% endif %}.
+              </span>
             </a>
             <ul class="dropdown-menu">
               <li class="user-footer">
