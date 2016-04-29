@@ -1,10 +1,18 @@
 from django.core.management.base import BaseCommand
 import faker
+import random
 from scheduling import models
 
 
 def create_classrooms(num_rooms):
-    pass
+    for i in range(1, num_rooms + 1):
+        name = 'Room {}'.format(i)
+        capacity = 30
+
+        room = models.Classroom(name=name, capacity=capacity)
+        room.save()
+
+        print('Created classroom "{}".'.format(name))
 
 
 def create_users(num_users):
