@@ -71,6 +71,22 @@ class Instructor(models.Model):
     # Dawn was assuming specialty was just the classes they could teach
     specialty = models.ManyToManyField(Class, related_name='specialities')
 
+    def is_available_in_morning(self, week):
+        week_morning = '{}m'.format(week)
+
+        return week_morning in self.availability
+
+    def is_available_in_afternoon(self, week):
+        week_afternoon = '{}a'.format(week)
+
+        return week_afternoon in self.availability
+
+    def is_available(self, week):
+        return self.is_available_in_morning(week) or self.is_available_in_afternoon(week)
+
+    def is_available_all_day(self, week):
+        return self.is_available_in_afternoon(week) and self.is_available_in_afternoon(week)
+
     def __str__(self):
         return self.user.username
 
