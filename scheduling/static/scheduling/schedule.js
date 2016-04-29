@@ -17,10 +17,22 @@ var Schedule = function () {
 };
 
 
+var Course = function (id, title, instructors, rooms) {
+    var rv = {};
+
+    rv.id = id;
+    rv.title = title;
+    rv.instructors = instructors;
+    rv.rooms = rooms;
+
+    
+};
+
+
 //All of the following functions use jQuery
 $(function () {
 
-    var SCHEDULE = Schedule();
+    var current_schedule = Schedule();
 
     function parseDatabaseData(data) {
         var rv = {};

@@ -1,6 +1,7 @@
 import pprint
 import re
 
+import django.contrib.auth
 from django.apps import apps
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -9,7 +10,6 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-import django.contrib.auth
 
 from . import models
 
