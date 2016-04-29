@@ -35,9 +35,22 @@ class Schedule(models.Model):
 
 
 class Class(models.Model):
+    HALF_DAY = 'HD'
+    FULL_DAY = 'FD'
+
+    TYPE_CHOICES = (
+        (HALF_DAY, 'Half Day'),
+        (FULL_DAY, 'Full Day')
+    )
+
     name = models.CharField(max_length=255)
 
-    age_group = models.CharField(max_length=10)  # Just a written '??-??'
+    age_group = models.CharField(max_length=10)
+
+    type = models.CharField(
+        max_length=8,
+        choices=TYPE_CHOICES,
+        default=HALF_DAY)
 
     # Room requirements need to match the actual classrooms
     room_requirement = models.ManyToManyField(Classroom, related_name='allowed_rooms')
