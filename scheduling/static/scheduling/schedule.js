@@ -25,30 +25,53 @@ var Course = function (id, title, instructors, rooms) {
     rv.instructors = instructors;
     rv.rooms = rooms;
 
-    
+    return rv;
 };
 
 
+var Instructor = function (id, name, availabilities, specialties) {
+    var rv = {};
+
+    rv.id = id;
+    rv.name = name;
+    rv.availabilities = availabilities;
+    rv.specialties = specialties;
+
+    return rv;
+};
+
+
+var Classroom = function (id, name, capacity) {
+    var rv = {};
+
+    rv.id = id;
+    rv.name = name;
+    rv.capacity = capacity;
+
+    return rv;
+};
+
+var parseDatabaseData = function (data) {
+    var rv = {};
+    for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+            rv[key] = JSON.parse(data[key]);
+        }
+    }
+
+    return rv;
+};
+
+
+var confirmConflictingAction = function () {
+    return confirm('The instructor for this class is ' +
+        'not available for this time of day. Are you ' +
+        'sure you want to do this?');
+};
+
 //All of the following functions use jQuery
 $(function () {
-
     var current_schedule = Schedule();
-
-    function parseDatabaseData(data) {
-        var rv = {};
-        for (var key in data) {
-            if (data.hasOwnProperty(key)) {
-                rv[key] = JSON.parse(data[key]);
-            }
-        }
-
-        return rv;
-    }
-
-
-    function confirmConflictingAction() {
-        return confirm('The instructor for this class is not available for this time of day. Are you sure you want to do this?');
-    }
 
     //Declares which classes are draggable and how they will be implemented
     $('.course').draggable({
