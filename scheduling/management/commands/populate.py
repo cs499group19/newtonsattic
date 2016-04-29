@@ -4,6 +4,24 @@ import random
 from scheduling import models
 
 
+def generate_availabilities(num_weeks):
+    availability = ['m', 'a', '']
+    rv = []
+
+    for i in range(1, num_weeks + 1):
+        times = random.randint(1, 2)
+        choice = random.choice(availability)
+
+        if times == 1:
+            if choice:
+                rv.append('{}{}'.format(i, choice))
+        else:
+            rv.append('{}m'.format(i))
+            rv.append('{}a'.format(i))
+
+    return rv
+
+
 def create_classrooms(num_rooms):
     for i in range(1, num_rooms + 1):
         name = 'Room {}'.format(i)
@@ -30,6 +48,19 @@ def create_users(num_users):
         user.last_name = last_name
 
         user.save()
+
+        classes = list(models.Class.objects.all())
+        availability = generate_availabilities(12)
+        specialities = random.sample(
+            classes,
+            random.randint(1, len(classes)))
+
+        instructor = models.Instructor()
+        instructor.user = user
+        instructor.availability = availability
+        instructor.save()
+        instructor.specialty = specialities
+
 
         print('Created user "{}".'.format(user.get_full_name()))
 
@@ -62,7 +93,6 @@ class Command(BaseCommand):
         parser.add_argument('num_classes', nargs='+', type=int)
 
     def handle(self, *args, **options):
-        print(options)
         main(options)
 
 
