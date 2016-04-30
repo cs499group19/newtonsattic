@@ -59,9 +59,10 @@ def edit_schedule(request, schedule_id):
     schedule = get_object_or_404(models.Schedule, pk=schedule_id)
 
     context = {
-        'data': {},
         'weeks': list(range(1, 13)),
         'times': ['Morning', 'Afternoon'],
+        # This is only here to prevent an error from occurring in the template.
+        'sorted': {}
     }
 
     data = {}
@@ -83,7 +84,7 @@ def edit_schedule(request, schedule_id):
                 data[week][time].append((course, instructor))
 
     context['data'] = json.dumps('json', data)
-    context['data']['schedule'] = schedule.to_json()
+    context['schedule'] = json.dumps(schedule.to_json())
 
     return render(request, 'scheduling/schedule.html', context)
 
