@@ -1,3 +1,4 @@
+import json
 from datetime import date
 
 from django.contrib.auth.models import User
@@ -5,16 +6,23 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
+def user_to_json(user: User):
+    return json.dumps({
+        'id': user.id,
+        'full_name': user.get_full_name()
+    })
+
+
 class Classroom(models.Model):
     name = models.CharField(max_length=255)
     capacity = models.IntegerField(default=0)
 
-    def json_dict(self):
-        return {
+    def to_json(self):
+        return json.dumps({
             'id': self.id,
             'name': self.name,
             'capacity': self.capacity
-        }
+        })
 
     def __str__(self):
         return self.name
@@ -29,6 +37,13 @@ class Schedule(models.Model):
 
     # to store the JSON
     schedule = models.TextField()
+
+    def to_json(self):
+        return json.dumps({
+            'id': self.id,
+            'name': self.name,
+            'schedule': self.schedule
+        })
 
     def __str__(self):
         return self.name
@@ -54,6 +69,17 @@ class Class(models.Model):
 
     # Room requirements need to match the actual classrooms
     room_requirement = models.ManyToManyField(Classroom, related_name='allowed_rooms')
+
+    def to_json(self):
+        rooms = [room.json_dict() for room in self.room_requirement.all()]
+
+        return json.dumps({
+            'id': self.id,
+            'name': self.name,
+            'age_group': self.age_group,
+            'type': self.type,
+            'room_requirement': rooms
+        })
 
     def __str__(self):
         return self.name
@@ -86,6 +112,16 @@ class Instructor(models.Model):
 
     def is_available_all_day(self, week):
         return self.is_available_in_afternoon(week) and self.is_available_in_afternoon(week)
+
+    def to_json(self):
+        specialties = [specialty.json_dict() for specialty in self.specialty.all()]
+
+        return json.dumps({
+            'id': self.id,
+            'user': user_to_json(self.user),
+            'availability': self.availability,
+            'specialty': specialties
+        })
 
     def __str__(self):
         return self.user.username
