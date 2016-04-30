@@ -1,3 +1,4 @@
+import json
 import pprint
 import re
 
@@ -57,61 +58,32 @@ def create_new_schedule(request):
 def edit_schedule(request, schedule_id):
     schedule = get_object_or_404(models.Schedule, pk=schedule_id)
 
-    # models_to_get = [
-    #     'Class',
-    #     'Classroom',
-    #     'Instructor'
-    # ]
-
-    # Get all models specified above.
-    # model_set = map(lambda name: apps.get_model('scheduling', name), models_to_get)
-
     context = {
         'data': {},
         'weeks': list(range(1, 13)),
         'times': ['Morning', 'Afternoon'],
-        'sorted': {}
     }
 
-    # for week in context['weeks']:
-    #     context['sorted'][week] = {}
-
-    # for model in model_set:
-    #     # Get all records associated with a particular model and serialize them.
-    #     records = model.objects.all()
-    #
-    #     context[model.__name__] = records
-    #     context['data'][model.__name__] = serializers.serialize('json', records)
-
+    data = {}
     for course in models.Class.objects.all():
         for instructor in course.specialities.all():
             for availability in instructor.availability:
                 time = availability[-1]
                 week = availability[:2] if len(availability) == 3 else availability[:1]
 
-                if week not in context:
-                    context[week] = {}
+                if week not in data:
+                    data[week] = {}
 
-                if time not in context[week]:
-                    context[week][time] = []
+                if time not in data[week]:
+                    data[week][time] = []
 
                 if course.type == 'FD' and not instructor.is_available_all_day(week):
                     continue
 
-                context[week][time].append((course, instructor))
+                data[week][time].append((course, instructor))
 
-    # for week in context['weeks']:
-    #     for instructor in context['Instructor']:
-    #         for a in instructor.availability:
-    #             myregex = re.escape(str(week)) + "[am]"
-    #             if re.match(myregex, a):
-    #                 for c in instructor.specialty.all():
-    #                     if c in context['sorted'][week]:
-    #                         context['sorted'][week][c].append(instructor)
-    #                     else:
-    #                         context['sorted'][week][c] = [instructor]
-
-    # pprint.pprint(context)
+    context['data'] = json.dumps('json', data)
+    context['data']['schedule'] = schedule.to_json()
 
     return render(request, 'scheduling/schedule.html', context)
 

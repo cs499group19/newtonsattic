@@ -1,4 +1,3 @@
-import json
 from datetime import date
 
 from django.contrib.auth.models import User
@@ -7,10 +6,10 @@ from django.db import models
 
 
 def user_to_json(user: User):
-    return json.dumps({
+    return {
         'id': user.id,
         'full_name': user.get_full_name()
-    })
+    }
 
 
 class Classroom(models.Model):
@@ -18,11 +17,11 @@ class Classroom(models.Model):
     capacity = models.IntegerField(default=0)
 
     def to_json(self):
-        return json.dumps({
+        return {
             'id': self.id,
             'name': self.name,
             'capacity': self.capacity
-        })
+        }
 
     def __str__(self):
         return self.name
@@ -39,11 +38,11 @@ class Schedule(models.Model):
     schedule = models.TextField()
 
     def to_json(self):
-        return json.dumps({
+        return {
             'id': self.id,
             'name': self.name,
             'schedule': self.schedule
-        })
+        }
 
     def __str__(self):
         return self.name
@@ -73,13 +72,13 @@ class Class(models.Model):
     def to_json(self):
         rooms = [room.json_dict() for room in self.room_requirement.all()]
 
-        return json.dumps({
+        return {
             'id': self.id,
             'name': self.name,
             'age_group': self.age_group,
             'type': self.type,
             'room_requirement': rooms
-        })
+        }
 
     def __str__(self):
         return self.name
@@ -116,12 +115,12 @@ class Instructor(models.Model):
     def to_json(self):
         specialties = [specialty.json_dict() for specialty in self.specialty.all()]
 
-        return json.dumps({
+        return {
             'id': self.id,
             'user': user_to_json(self.user),
             'availability': self.availability,
             'specialty': specialties
-        })
+        }
 
     def __str__(self):
         return self.user.username
