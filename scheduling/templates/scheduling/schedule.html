@@ -30,6 +30,26 @@
       $('a[role="tab"]:first').tab('show');
     });
   </script>
+
+  <script type="text/javascript">
+    $('#btn-schedule-save').on('click', function (e) {
+      e.preventDefault();
+      var schedule = saveSchedule();
+
+      var saveForm = $('<form></form>');
+      saveForm.attr('action', '{% url 'save_schedule' %}');
+      saveForm.attr('method', 'post');
+
+      var scheduleField = $('<input></input>');
+      scheduleField.attr('type', 'hidden');
+      scheduleField.attr('name', 'schedule');
+      scheduleField.attr('value', schedule);
+
+      saveForm.append(scheduleField);
+      //saveForm.submit();
+    });
+  </script>
+
   <script type="application/javascript">
     var data = JSON.parse('{{ data|safe }}');
     var schedule = JSON.parse('{{ schedule|safe }}');
