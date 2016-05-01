@@ -1,3 +1,6 @@
+// This file contains the javascript that is necessary for the
+//   scheduling.html page
+
 var Week = function () {
     return {
         morning: [],
@@ -72,6 +75,8 @@ var createDraggable = function (course, age, instructor, classroom) {
     return rv;
 }
 
+// Function to generate the draggables based on what instructor, class, classroom, age group
+//   combinations are available.
 function generateAvailable(data, schedule, week, time) {
     var available = [];
     //var t = time.charAt(0).toLowerCase();
@@ -99,7 +104,6 @@ function generateAvailable(data, schedule, week, time) {
         for (var room in course.room_requirement) {
             var courseItem = document.createElement('div');
             courseItem.setAttribute('class', 'box box-primary collapsed-box course');
-            //courseItem.setAttribute('id', 'availCourses-'+week);
 
             var div1 = document.createElement('div');
             div1.setAttribute('class', 'box-header with-border');
@@ -154,21 +158,16 @@ function generateAvailable(data, schedule, week, time) {
     }
 }
 
+// Function to save the schedule as a JSON object.
 var saveSchedule = function() {
     var schedule = Schedule();
 
     for (var i = 1; i <= 12; i++) {
         var weekm = document.getElementById('scheduled-'+i+'Morning').children;
-        //var weekm = temp.children;
         for (var j = 0; j < weekm.length; j++) {
             var obj = {};
 
-            //var course = weekm.getElementById('courseName');
-            //"Build Your Own 3D PrinterAge Group: 12-17Instructor: Gee JakubowskiClassroom: Shop"
             var allText = weekm[j]['textContent'];
-            //var patt1 = /Group:\s/g.exec(allText);
-            //var patt2 = /Instructor:\s/g.exec(allText);
-            //var patt3 = /Classroom:\s/g.exec(allText);
             var patt1 = /Group:\s/g;
             patt1.exec(allText);
             var patt2 = /Instructor:\s/g;
@@ -196,13 +195,28 @@ var saveSchedule = function() {
         for (var j = 0; j < weeka.length; j++) {
             var obj = {};
 
-            //var course = weekm.getElementById('courseName');
-            obj.course = weeka.getElementById('courseName').innerHTML();
-            obj.instructor = weeka.getElementById('instructorName').innerHTML();
-            obj.ageGroup = weeka.getElementById('ageGroup').innerHTML();
-            obj.classroom = weeka.getElementById('classroomName').innerHTML();
+            var allText = weeka[j]['textContent'];
+            var patt1 = /Group:\s/g;
+            patt1.exec(allText);
+            var patt2 = /Instructor:\s/g;
+            patt2.exec(allText);
+            var patt3 = /Classroom:\s/g;
+            patt3.exec(allText);
 
-            schedule[i]['afternoon'].push(obj);
+            var titleEndIndex = allText.indexOf("Age");
+            var ageGroupStartIndex = patt1.lastIndex;
+            var ageGroupEndIndex = allText.indexOf("Instructor");
+            var instructorStartIndex = patt2.lastIndex;
+            var instructorEndIndex = allText.indexOf("Classroom");
+            var classroomStartIndex = patt3.lastIndex;
+
+
+            obj.course = allText.slice(0,titleEndIndex);
+            obj.instructor = allText.slice(instructorStartIndex, instructorEndIndex);
+            obj.ageGroup = allText.slice(ageGroupStartIndex, ageGroupEndIndex);
+            obj.classroom = allText.slice(classroomStartIndex);
+
+            schedule.weeks[i-1].afternoon.push(obj);
         }
     }
 
