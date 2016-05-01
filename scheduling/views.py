@@ -91,7 +91,15 @@ def edit_schedule(request, schedule_id):
 
 @login_required(login_url='/login/')
 def save_schedule(request, schedule_id):
-    pass
+    if request.POST:
+        schedule = get_object_or_404(models.Schedule, pk=schedule_id)
+
+        schedule.schedule = request.POST.get('schedule')
+        schedule.save()
+
+        messages.success(request, 'Your schedule have been saved successfully!')
+
+    return HttpResponseRedirect(reverse('index'))
 
 
 @login_required(login_url='/login/')
