@@ -124,6 +124,6 @@
     });
   </script>
   <script type="application/javascript">
-    var data = parseDatabaseData({{ data|safe }});
+    var data = JSON.parse('{{ data|safe }}');
   </script>
 {% endblock %}

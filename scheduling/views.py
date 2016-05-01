@@ -81,10 +81,10 @@ def edit_schedule(request, schedule_id):
                 if course.type == 'FD' and not instructor.is_available_all_day(week):
                     continue
 
-                data[week][time].append((course, instructor))
+                data[week][time].append((course.to_json(), instructor.to_json()))
 
-    context['data'] = json.dumps('json', data)
-    context['schedule'] = json.dumps(schedule.to_json())
+    context['data'] = json.dumps(data, sort_keys=True)
+    context['schedule'] = json.dumps(schedule.to_json(), sort_keys=True)
 
     return render(request, 'scheduling/schedule.html', context)
 

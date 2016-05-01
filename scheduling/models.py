@@ -70,7 +70,7 @@ class Class(models.Model):
     room_requirement = models.ManyToManyField(Classroom, related_name='allowed_rooms')
 
     def to_json(self):
-        rooms = [room.json_dict() for room in self.room_requirement.all()]
+        rooms = [room.to_json() for room in self.room_requirement.all()]
 
         return {
             'id': self.id,
@@ -113,7 +113,7 @@ class Instructor(models.Model):
         return self.is_available_in_afternoon(week) and self.is_available_in_afternoon(week)
 
     def to_json(self):
-        specialties = [specialty.json_dict() for specialty in self.specialty.all()]
+        specialties = [specialty.id for specialty in self.specialty.all()]
 
         return {
             'id': self.id,
