@@ -16,10 +16,33 @@
 
 {% endblock %}
 
+{% block javascript %}
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="{% static 'scheduling/schedule.js' %}"></script>
+  <script type="text/javascript">
+    $('a[role="tab"]').click(function (e) {
+      e.preventDefault();
+      $(this).tab('show');
+    });
+
+    $(function () {
+      $('a[role="tab"]:first').tab('show');
+    });
+  </script>
+  <script type="application/javascript">
+    var data = JSON.parse('{{ data|safe }}');
+    var schedule = JSON.parse('{{ schedule|safe }}');
+  </script>
+{% endblock %}
+
 {% block content %}
   <div class="row">
     <div class="col-md-4">
-      <button id="btn-schedule-save" class="btn btn-success">Save</button>
+      <form action="" method="post" id="save">
+        {% csrf_token %}
+        <button form="save" id="btn-schedule-save" class="btn btn-success" onclick="saveSchedule()">Save</button>
+      </form>
     </div>
   </div>
   <br>
@@ -46,7 +69,7 @@
         {% for week in weeks %}
           <div role="tabpanel" class="tab-pane" id="week-{{ week }}">
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-5">
                 {% for time in times %}
                   <div class="box box-default time">
                     <div class="box-header with-border">
@@ -58,40 +81,43 @@
                       </div>
                     </div>
                     <div class="box-body">
-                      <ul id="time" style="list-style-type:none">
+                      <ul id="scheduled-{{ week }}{{ time }}" class="timeOfDay" style="list-style-type:none">
                         <!--div>{{ week }}</div-->
                       </ul>
                     </div>
                   </div>
                 {% endfor %}
               </div>
-              <div id="allCourses" class="col-md-4">
-                <h3>Available Courses</h3>
-                {% for class in sorted|get_item:week %}
-                  {% for instructors in sorted|get_item:week|get_item:class %}
-                    {% for room in class.room_requirement.all %}
-                      <!-- begin box-->
-                      <div class="box box-primary collapsed-box course">
-                        <div class="box-header with-border">
-                          <h3 class="box-title">{{ class.name }}</h3>
-                          <div class="box-tools pull-right">
-                            <button class="btn btn-box-tool" data-widget="collapse">
-                              <i class="fa fa-minus"></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="box-body">
-                          <ul id="course" style="list-style-type: circle">
-                            <li>Age Group: {{ class.age_group }}</li>
-                            <li>Instructor: {{ instructors.name }}</li>
-                            <li>Classroom: {{ room.name }}</li>
-                          </ul>
-                        </div>
-                      </div>
-                      <!-- end box -->
-                    {% endfor %}
-                  {% endfor %}
-                {% endfor %}
+              <div id="availCourses-{{ week }}m" class="col-md-3 allCourses">
+                <h4>Available Morning Courses</h4>
+                <!-- begin box-->
+                <!-- div id="sampleMorning" class="box box-primary collapsed-box course" style="display: none">
+                  <div class="box-header with-border">
+                    <h3 id="courseName" class="box-title"></h3>
+                    <div class="box-tools pull-right">
+                      <button class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="box-body">
+                    <ul id="course" style="list-style-type: circle">
+                      <li id="ageGroup"></li>
+                      <li id="instructorName"></li>
+                      <li id="classroomName"></li>
+                    </ul>
+                  </div>
+                </div -->
+                <!-- end box -->
+                <script>
+                  generateAvailable(data, schedule, {{ week }}, 'm');
+                </script>
+              </div>
+              <div id="availCourses-{{ week }}a" class="col-md-3 allCourses">
+                <h4>Available Afternoon Courses</h4>
+                <script>
+                  generateAvailable(data, schedule, {{ week }}, 'a');
+                </script>
               </div>
             </div>
           </div>
@@ -107,23 +133,4 @@
 
 {% block copyright %}
 
-{% endblock %}
-
-{% block javascript %}
-  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="{% static 'scheduling/schedule.js' %}"></script>
-  <script type="text/javascript">
-    $('a[role="tab"]').click(function (e) {
-      e.preventDefault();
-      $(this).tab('show');
-    });
-
-    $(function () {
-      $('a[role="tab"]:first').tab('show');
-    });
-  </script>
-  <script type="application/javascript">
-    var data = JSON.parse('{{ data|safe }}');
-  </script>
 {% endblock %}
