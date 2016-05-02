@@ -85,7 +85,7 @@ def edit_schedule(request, schedule_id):
 
     context['schedule_id'] = schedule.id
     context['data'] = json.dumps(data, sort_keys=True)
-    context['schedule'] = json.dumps(schedule.to_json(), sort_keys=True)
+    context['schedule'] = schedule.schedule
 
     return render(request, 'scheduling/schedule.html', context)
 
