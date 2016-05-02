@@ -34,7 +34,7 @@
   <script type="text/javascript">
     $(document).ready('#btn-schedule-save').on('click', function (e) {
       e.preventDefault();
-      var schedule = saveSchedule();
+      var schedule_json = saveSchedule();
       var schedule_id = 1;
       console.log(schedule);
 
@@ -47,7 +47,7 @@
       var $scheduleField = $('<input></input>');
       $scheduleField.attr('type', 'hidden');
       $scheduleField.attr('name', 'schedule');
-      $scheduleField.attr('value', schedule);
+      $scheduleField.attr('value', schedule_json);
 
       var $scheduleId = $('<input></input>');
       $scheduleId.attr('type', 'hidden');
