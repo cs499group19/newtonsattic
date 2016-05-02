@@ -35,19 +35,23 @@
     $(document).ready('#btn-schedule-save').on('click', function (e) {
       e.preventDefault();
       var schedule = saveSchedule();
+      var schedule_id = 1;
       console.log(schedule);
 
       var saveForm = $('<form></form>');
       saveForm.attr('action', '{% url 'save_schedule' %}');
       saveForm.attr('method', 'post');
 
+      var csrf = $("{% csrf_token %}");
+
       var scheduleField = $('<input></input>');
       scheduleField.attr('type', 'hidden');
       scheduleField.attr('name', 'schedule');
       scheduleField.attr('value', schedule);
 
+      saveForm.append(csrf);
       saveForm.append(scheduleField);
-      //saveForm.submit();
+      saveForm.submit();
     });
   </script>
 
@@ -64,6 +68,7 @@
         {% csrf_token %}
         <button form="save" id="btn-schedule-save" class="btn btn-success">Save</button>
       </form>
+      <!--button id="btn-schedule-save" class="btn btn-success">Save</button-->
     </div>
   </div>
   <br>
