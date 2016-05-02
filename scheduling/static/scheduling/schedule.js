@@ -191,7 +191,7 @@ var saveSchedule = function() {
             schedule.weeks[i-1].morning.push(obj);
         }
 
-        var weeka = getElementById('scheduled-'+i+'Afternoon');
+        var weeka = document.getElementById('scheduled-'+i+'Afternoon').children;
         for (var j = 0; j < weeka.length; j++) {
             var obj = {};
 

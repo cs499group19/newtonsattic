@@ -32,9 +32,10 @@
   </script>
 
   <script type="text/javascript">
-    $('#btn-schedule-save').on('click', function (e) {
+    $(document).ready('#btn-schedule-save').on('click', function (e) {
       e.preventDefault();
       var schedule = saveSchedule();
+      console.log(schedule);
 
       var saveForm = $('<form></form>');
       saveForm.attr('action', '{% url 'save_schedule' %}');
@@ -61,7 +62,7 @@
     <div class="col-md-4">
       <form action="" method="post" id="save">
         {% csrf_token %}
-        <button form="save" id="btn-schedule-save" class="btn btn-success" onclick="saveSchedule()">Save</button>
+        <button form="save" id="btn-schedule-save" class="btn btn-success">Save</button>
       </form>
     </div>
   </div>
