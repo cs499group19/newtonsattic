@@ -83,6 +83,7 @@ def edit_schedule(request, schedule_id):
 
                 data[week][time].append((course.to_json(), instructor.to_json()))
 
+    context['schedule_id'] = schedule.id
     context['data'] = json.dumps(data, sort_keys=True)
     context['schedule'] = json.dumps(schedule.to_json(), sort_keys=True)
 

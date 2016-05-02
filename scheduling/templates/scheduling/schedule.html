@@ -39,7 +39,7 @@
       console.log(schedule);
 
       var saveForm = $('<form></form>');
-      saveForm.attr('action', '{% url 'save_schedule' %}');
+      saveForm.attr('action', '{% url 'save_schedule' %}/{{ schedule_id }}');
       saveForm.attr('method', 'post');
 
       var csrf = $("{% csrf_token %}");
