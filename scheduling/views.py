@@ -91,9 +91,9 @@ def edit_schedule(request, schedule_id):
 
 
 @login_required(login_url='/login/')
-def save_schedule(request, schedule_id):
+def save_schedule(request):
     if request.POST:
-        schedule = get_object_or_404(models.Schedule, pk=schedule_id)
+        schedule = get_object_or_404(models.Schedule, pk=request.POST.get('schedule_id'))
 
         schedule.schedule = request.POST.get('schedule')
         schedule.save()

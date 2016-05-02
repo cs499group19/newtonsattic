@@ -38,20 +38,26 @@
       var schedule_id = 1;
       console.log(schedule);
 
-      var saveForm = $('<form></form>');
-      saveForm.attr('action', '{% url 'save_schedule' %}/{{ schedule_id }}');
-      saveForm.attr('method', 'post');
+      var $saveForm = $('<form></form>');
+      $saveForm.attr('action', '{% url 'save_schedule' %}');
+      $saveForm.attr('method', 'post');
 
-      var csrf = $("{% csrf_token %}");
+      var $csrf = $("{% csrf_token %}");
 
-      var scheduleField = $('<input></input>');
-      scheduleField.attr('type', 'hidden');
-      scheduleField.attr('name', 'schedule');
-      scheduleField.attr('value', schedule);
+      var $scheduleField = $('<input></input>');
+      $scheduleField.attr('type', 'hidden');
+      $scheduleField.attr('name', 'schedule');
+      $scheduleField.attr('value', schedule);
 
-      saveForm.append(csrf);
-      saveForm.append(scheduleField);
-      saveForm.submit();
+      var $scheduleId = $('<input></input>');
+      $scheduleId.attr('type', 'hidden');
+      $scheduleId.attr('name', 'schedule_id');
+      $scheduleId.attr('value', '{{ schedule_id }}');
+
+      $saveForm.append($csrf);
+      $saveForm.append($scheduleField);
+      $saveForm.append($scheduleId);
+      $saveForm.submit();
     });
   </script>
 
@@ -64,11 +70,7 @@
 {% block content %}
   <div class="row">
     <div class="col-md-4">
-      <form action="" method="post" id="save">
-        {% csrf_token %}
-        <button form="save" id="btn-schedule-save" class="btn btn-success">Save</button>
-      </form>
-      <!--button id="btn-schedule-save" class="btn btn-success">Save</button-->
+      <button id="btn-schedule-save" class="btn btn-success">Save</button>
     </div>
   </div>
   <br>
