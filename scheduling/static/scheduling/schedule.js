@@ -140,7 +140,7 @@ function generateAvailable(data, schedule, week, time) {
             if (used == true) { continue; }
 
             var courseItem = document.createElement('div');
-            courseItem.setAttribute('class', 'box box-primary collapsed-box course');
+            courseItem.setAttribute('class', 'box box-primary collapsed-box '+time+'course');
 
             var div1 = document.createElement('div');
             div1.setAttribute('class', 'box-header with-border');
@@ -197,15 +197,15 @@ function generateAvailable(data, schedule, week, time) {
 
 // Function to generate the draggables that are already in the schedule
 function generateSchedule(schedule, week, time) {
-    var t = time.charAt(0).toLowerCase();
+    //var t = time.charAt(0).toLowerCase();
     if (schedule == null) {
         return;
     }
-    for (var item in schedule['weeks'][week-1][t]) {
-        var info = schedule['weeks'][week-1][t][item];
+    for (var item in schedule['weeks'][week-1][time]) {
+        var info = schedule['weeks'][week-1][time][item];
 
         var courseItem = document.createElement('div');
-        courseItem.setAttribute('class', 'box box-primary collapsed-box course');
+        courseItem.setAttribute('class', 'box box-primary collapsed-box '+time+'course');
 
         var div1 = document.createElement('div');
         div1.setAttribute('class', 'box-header with-border');
@@ -257,8 +257,8 @@ function generateSchedule(schedule, week, time) {
         var allCourses = document.getElementById('scheduled-'+week+time);
         allCourses.appendChild(courseItem);
 
-        conflicts[week][t]['instructor'].push(info.instructor);
-        conflicts[week][t]['classroom'].push(info.classroom);
+        conflicts[week][time]['instructor'].push(info.instructor);
+        conflicts[week][time]['classroom'].push(info.classroom);
     }
 }
 
@@ -326,7 +326,7 @@ var saveSchedule = function() {
     var schedule = Schedule();
 
     for (var i = 1; i <= 12; i++) {
-        var weekm = document.getElementById('scheduled-'+i+'Morning').children;
+        var weekm = document.getElementById('scheduled-'+i+'m').children;
         for (var j = 1; j < weekm.length; j++) {
             var allText = weekm[j]['textContent'];
             var obj = parseTextContent(allText);
@@ -334,30 +334,10 @@ var saveSchedule = function() {
             schedule.weeks[i-1].m.push(obj);
         }
 
-        var weeka = document.getElementById('scheduled-'+i+'Afternoon').children;
+        var weeka = document.getElementById('scheduled-'+i+'a').children;
         for (var j = 1; j < weeka.length; j++) {
-            var obj = {};
-
             var allText = weeka[j]['textContent'];
-            var patt1 = /Group:\s/g;
-            patt1.exec(allText);
-            var patt2 = /Instructor:\s/g;
-            patt2.exec(allText);
-            var patt3 = /Classroom:\s/g;
-            patt3.exec(allText);
-
-            var titleEndIndex = allText.indexOf("Age");
-            var ageGroupStartIndex = patt1.lastIndex;
-            var ageGroupEndIndex = allText.indexOf("Instructor");
-            var instructorStartIndex = patt2.lastIndex;
-            var instructorEndIndex = allText.indexOf("Classroom");
-            var classroomStartIndex = patt3.lastIndex;
-
-
-            obj.course = allText.slice(0,titleEndIndex);
-            obj.instructor = allText.slice(instructorStartIndex, instructorEndIndex);
-            obj.ageGroup = allText.slice(ageGroupStartIndex, ageGroupEndIndex);
-            obj.classroom = allText.slice(classroomStartIndex);
+            var obj = parseTextContent(allText);
 
             schedule.weeks[i-1].a.push(obj);
         }
@@ -428,7 +408,7 @@ $(function () {
     var current_schedule = Schedule();
 
     //Declares which classes are draggable and how they will be implemented
-    $('.course').draggable({
+    $('.mcourse, .acourse').draggable({
         revert: "invalid", // when not dropped, the item will revert back to its initial position
         //containment: "calendar", //does not need to be contained to anything
         helper: "clone",
@@ -437,8 +417,17 @@ $(function () {
 
     //Declares which classes are droppable and how they will be implemented
     //From list to schedule
-    $('.time').droppable({
-        accept: $('.course'),
+    $('.morning').droppable({
+        accept: $('.mcourse'),
+        //activeClass: "ui-state-highlight",  ---highlight the droppable that is being dropped into
+        drop: function (event, ui) {
+            //alert( "dropped" );  ---popup in the browser for testing purposes
+            addToCalendar(ui.draggable, event.target);
+
+        }
+    });
+    $('.afternoon').droppable({
+        accept: $('.acourse'),
         //activeClass: "ui-state-highlight",  ---highlight the droppable that is being dropped into
         drop: function (event, ui) {
             //alert( "dropped" );  ---popup in the browser for testing purposes
@@ -455,47 +444,44 @@ $(function () {
          console.log($item);
          console.log("\n");
          console.log($week);*/
+        var allText = ($item).context.textContent;
+        var obj = parseTextContent(allText);
+
+        var weekTime = ($item).context.parentNode.id;
+        var index = weekTime.indexOf('-');
+        var w = weekTime.slice(index+1, (weekTime.length)-1);
+        var t = weekTime.slice((weekTime.length)-1);
+
+        if (conflicts[w][t]['instructor'].indexOf(obj.instructor) != -1) {
+            if (!confirmConflictingInstructor()) {
+                return;
+            }
+        }
+
+        if (conflicts[w][t]['classroom'].indexOf(obj.classroom) != -1) {
+            if (obj.classroom in rooms) {
+                var num = 0;
+                var classrooms = conflicts[w][t]['classroom'];
+
+                function count(item, index) {
+                    if (item==obj.classroom){
+                        num++;
+                    }
+                }
+                classrooms.forEach(count);
+                if (num >= rooms[obj.classroom]) {
+                    if (!confirmConflictingClassroom()) {
+                        return;
+                    }
+                }
+            }
+            else if (!confirmConflictingClassroom()) {
+                return;
+            }
+        }
+        
         $item.fadeOut(function () {
             var $list = $("ul[class='timeOfDay']", $week);
-
-            var allText = ($item).context.innerText;
-            var obj = parseTextContent(allText);
-
-            var weekTime = ($item).context.parentNode.id;
-            var index = weekTime.indexOf('-');
-            var w = weekTime.slice(index+1, (weekTime.length)-1);
-            var t = weekTime.slice((weekTime.length)-1);
-
-            if (conflicts[w][t]['instructor'].indexOf(obj.instructor) != -1) {
-                if (!confirmConflictingInstructor()) {
-                    removeFromCalendar($item, $('.allCourses'));
-                    return;
-                }
-            }
-
-            if (conflicts[w][t]['classroom'].indexOf(obj.classroom) != -1) {
-                if (obj.classroom in rooms) {
-                    var num = 0;
-                    var classrooms = conflicts[w][t]['classroom'];
-
-                    function count(item, index) {
-                        if (item==obj.classroom){
-                            num++;
-                        }
-                    }
-                    classrooms.forEach(count);
-                    if (num >= rooms[obj.classroom]) {
-                        if (!confirmConflictingClassroom()) {
-                            removeFromCalendar($item, $('.allCourses'));
-                            return;
-                        }
-                    }
-                }
-                else if (!confirmConflictingClassroom()) {
-                    removeFromCalendar($item, $('.allCourses'));
-                    return;
-                }
-            }
 
             conflicts[w][t]['instructor'].push(obj.instructor);
             conflicts[w][t]['classroom'].push(obj.classroom);
@@ -512,9 +498,17 @@ $(function () {
     }
 
     //From schedule to list
-    //$("ul[id='allCourses']").droppable({
-    $(".allCourses").droppable({
-        accept: $('.course'),
+    $(".allMorningCourses").droppable({
+        accept: $('.mcourse'),
+        //activeClass: "ui-state-highlight",  ---highlight the droppable that is being dropped into
+        drop: function (event, ui) {
+            //alert( "dropped" );  ---popup in the browser for testing purposes
+            removeFromCalendar(ui.draggable, event.target);
+
+        }
+    });
+    $(".allAfternoonCourses").droppable({
+        accept: $('.acourse'),
         //activeClass: "ui-state-highlight",  ---highlight the droppable that is being dropped into
         drop: function (event, ui) {
             //alert( "dropped" );  ---popup in the browser for testing purposes
@@ -537,9 +531,24 @@ $(function () {
                  .animate({ width: "48px" })
                  .find ( "li" )
                  .animate({ height: "36px" });*/
-            });
+            }).css('display', 'block');
 
         });
+        var allText = ($item).context.textContent;
+        var obj = parseTextContent(allText);
+
+        var weekTime = ($item).context.parentNode.id;
+        var index = weekTime.indexOf('-');
+        var w = weekTime.slice(index+1, (weekTime.length)-1);
+        var t = weekTime.slice((weekTime.length)-1);
+
+        var instructorIndex = conflicts[w][t]['instructor'].indexOf(obj.instructor);
+        var classroomIndex = conflicts[w][t]['classroom'].indexOf(obj.classroom);
+
+        //conflicts[w][t]['instructor'] = (conflicts[w][t]['instructor']).splice(instructorIndex, 1);
+        (conflicts[w][t]['instructor']).splice(instructorIndex, 1);
+        //conflicts[w][t]['classroom'] = (conflicts[w][t]['classroom']).splice(classroomIndex, 1);
+        (conflicts[w][t]['classroom']).splice(classroomIndex, 1);
     }
 
 });

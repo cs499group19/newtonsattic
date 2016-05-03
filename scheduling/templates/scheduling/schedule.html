@@ -127,6 +127,7 @@
           <div role="tabpanel" class="tab-pane" id="week-{{ week }}">
             <div class="row">
               <div class="col-md-5">
+                <!-- >
                 {% for time in times %}
                   <div class="box box-default time">
                     <div class="box-header with-border">
@@ -146,8 +147,43 @@
                     </div>
                   </div>
                 {% endfor %}
+                < -->
+                <div class="box box-default morning">
+                  <div class="box-header with-border">
+                    <h3 class="box-title">Morning</h3>
+                    <div class="box-tools pull-right">
+                      <button class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="box-body">
+                    <ul id="scheduled-{{ week }}m" class="timeOfDay" style="list-style-type:none">
+                      <script>
+                        generateSchedule(schedule, {{ week }}, 'm');
+                      </script>
+                    </ul>
+                  </div>
+                </div>
+                <div class="box box-default afternoon">
+                  <div class="box-header with-border">
+                    <h3 class="box-title">Afternoon</h3>
+                    <div class="box-tools pull-right">
+                      <button class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="box-body">
+                    <ul id="scheduled-{{ week }}a" class="timeOfDay" style="list-style-type:none">
+                      <script>
+                        generateSchedule(schedule, {{ week }}, 'a');
+                      </script>
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <div id="availCourses-{{ week }}m" class="col-md-3 allCourses">
+              <div id="availCourses-{{ week }}m" class="col-md-3 allCourses allMorningCourses">
                 <h4>Available Morning Courses</h4>
                 <!-- begin box-->
                 <!-- div id="sampleMorning" class="box box-primary collapsed-box course" style="display: none">
@@ -172,7 +208,7 @@
                   generateAvailable(data, schedule, {{ week }}, 'm');
                 </script>
               </div>
-              <div id="availCourses-{{ week }}a" class="col-md-3 allCourses">
+              <div id="availCourses-{{ week }}a" class="col-md-3 allCourses allAfternoonCourses">
                 <h4>Available Afternoon Courses</h4>
                 <script>
                   generateAvailable(data, schedule, {{ week }}, 'a');
