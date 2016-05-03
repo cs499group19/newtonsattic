@@ -90,7 +90,8 @@ class Instructor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     availability = ArrayField(
-        models.CharField(max_length=5)
+        models.CharField(max_length=5),
+        default=list
     )
 
     # Dawn was assuming specialty was just the classes they could teach
@@ -135,3 +136,22 @@ class Document(models.Model):
 
     def __str__(self):
         return self.name
+
+#
+# class WeekHeadingsSettings(models.Model):
+#     week1_title = models.CharField(max_length=255, default='Week 1')
+#     week2_title = models.CharField(max_length=255, default='Week 2')
+#     week3_title = models.CharField(max_length=255, default='Week 3')
+#     week4_title = models.CharField(max_length=255, default='Week 4')
+#     week5_title = models.CharField(max_length=255, default='Week 5')
+#     week6_title = models.CharField(max_length=255, default='Week 6')
+#     week7_title = models.CharField(max_length=255, default='Week 7')
+#     week8_title = models.CharField(max_length=255, default='Week 8')
+#     week9_title = models.CharField(max_length=255, default='Week 9')
+#     week10_title = models.CharField(max_length=255, default='Week 10')
+#     week11_title = models.CharField(max_length=255, default='Week 11')
+#     week12_title = models.CharField(max_length=255, default='Week 12')
+#
+#     def __str__(self):
+#         return 'Week Heading Settings'
+#
