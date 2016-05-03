@@ -32,32 +32,34 @@
   </script>
 
   <script type="text/javascript">
-    $(document).ready('#btn-schedule-save').on('click', function (e) {
-      e.preventDefault();
-      var schedule_json = saveSchedule();
-      var schedule_id = 1;
-      console.log(schedule);
+    $(document).ready(function() {
+      $('#btn-schedule-save').on('click', function (e) {
+        e.preventDefault();
+        var schedule_json = saveSchedule();
+        var schedule_id = 1;
+        console.log(schedule);
 
-      var $saveForm = $('<form></form>');
-      $saveForm.attr('action', '{% url 'save_schedule' %}');
-      $saveForm.attr('method', 'post');
+        var $saveForm = $('<form></form>');
+        $saveForm.attr('action', '{% url 'save_schedule' %}');
+        $saveForm.attr('method', 'post');
 
-      var $csrf = $("{% csrf_token %}");
+        var $csrf = $("{% csrf_token %}");
 
-      var $scheduleField = $('<input></input>');
-      $scheduleField.attr('type', 'hidden');
-      $scheduleField.attr('name', 'schedule');
-      $scheduleField.attr('value', schedule_json);
+        var $scheduleField = $('<input></input>');
+        $scheduleField.attr('type', 'hidden');
+        $scheduleField.attr('name', 'schedule');
+        $scheduleField.attr('value', schedule_json);
 
-      var $scheduleId = $('<input></input>');
-      $scheduleId.attr('type', 'hidden');
-      $scheduleId.attr('name', 'schedule_id');
-      $scheduleId.attr('value', '{{ schedule_id }}');
+        var $scheduleId = $('<input></input>');
+        $scheduleId.attr('type', 'hidden');
+        $scheduleId.attr('name', 'schedule_id');
+        $scheduleId.attr('value', '{{ schedule_id }}');
 
-      $saveForm.append($csrf);
-      $saveForm.append($scheduleField);
-      $saveForm.append($scheduleId);
-      $saveForm.submit();
+        $saveForm.append($csrf);
+        $saveForm.append($scheduleField);
+        $saveForm.append($scheduleId);
+        $saveForm.submit();
+      });
     });
   </script>
 
@@ -110,7 +112,9 @@
                     </div>
                     <div class="box-body">
                       <ul id="scheduled-{{ week }}{{ time }}" class="timeOfDay" style="list-style-type:none">
-                        <!--div>{{ week }}</div-->
+                        <script>
+                          generateSchedule(schedule, {{ week }}, '{{ time }}');
+                        </script>
                       </ul>
                     </div>
                   </div>
