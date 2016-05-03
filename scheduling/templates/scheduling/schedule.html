@@ -112,7 +112,9 @@
                     </div>
                     <div class="box-body">
                       <ul id="scheduled-{{ week }}{{ time }}" class="timeOfDay" style="list-style-type:none">
-                        <!--div>{{ week }}</div-->
+                        <script>
+                          generateSchedule(schedule, {{ week }}, '{{ time }}');
+                        </script>
                       </ul>
                     </div>
                   </div>
