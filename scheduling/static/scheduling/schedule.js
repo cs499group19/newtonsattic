@@ -104,10 +104,6 @@ var createDraggable = function (course, age, instructor, classroom) {
 // Function to generate the draggables based on what instructor, class, classroom, age group
 //   combinations are available.
 function generateAvailable(data, schedule, week, time) {
-    /*var t;
-    if (time == 'm') { t = "morning"; }
-    else if (time == 'a') { t = "afternoon"; }*/
-
     if (data[week] == null) {
         return;
     }
@@ -257,6 +253,38 @@ function generateSchedule(schedule, week, time) {
     }
 }
 
+// Function to generate the full schedule
+function generateFullSchedule(schedule) {
+    for (var i = 0; i < 12; i++) {
+        var fullSchedule = document.createElement('tr');
+        var weekLabel = document.createElement('th');
+        weekLabel.innerHTML = "Week "+(i+1);
+        fullSchedule.appendChild(weekLabel);
+        for (var item in schedule['weeks'][i]['m']) {
+            var info = schedule['weeks'][i]['m'][item];
+            var scheduleItem = document.createElement('td');
+            scheduleItem.innerHTML = info.course+'<br>'
+                                        + info.ageGroup+'<br>'
+                                        + info.instructor+'<br>'
+                                        + info.classroom+'<br>'
+                                        + "Morning";
+            fullSchedule.appendChild(scheduleItem);
+        }
+        for (var item in schedule['weeks'][i]['a']) {
+            var info = schedule['weeks'][i]['a'][item];
+            var scheduleItem = document.createElement('td');
+            scheduleItem.innerHTML = info.course+'<br>'
+                                        + info.ageGroup+'<br>'
+                                        + info.instructor+'<br>'
+                                        + info.classroom+'<br>'
+                                        + "Afternoon";
+            fullSchedule.appendChild(scheduleItem);
+        }
+        var fullScheduleBody = document.getElementById('fullScheduleBody');
+        fullScheduleBody.appendChild(fullSchedule);
+    }
+}
+
 // Function that will parse the course, instructor, age group, classroom information
 var parseTextContent = function(allText) {
     var obj = {};
@@ -329,6 +357,48 @@ var saveSchedule = function() {
     return JSON.stringify(schedule);
 }
 
+// Function to generate the full schedule that can be printed
+function printSchedule(schedule) {
+    var html = document.createElement('html');
+    var head = document.createElement('head');
+    var style = document.createElement('style');
+    style.innerHTML = "table, th, td { border: 1px solid black; border-collapse: collapse; }";
+    head.appendChild(style);
+    var title = document.createElement('title');
+    title.innerHTML = "Full Schedule";
+    head.appendChild(title);
+    html.appendChild(head);
+    var body = document.createElement('body');
+    var table = document.createElement('table');
+
+    for (var i = 0; i < 12; i++) {
+        var fullSchedule = document.createElement('tr');
+        var weekLabel = document.createElement('th');
+        weekLabel.innerHTML = "Week "+(i+1);
+        fullSchedule.appendChild(weekLabel);
+        for (var item in schedule['weeks'][i]['m']) {
+            var info = schedule['weeks'][i]['m'][item];
+            var scheduleItem = document.createElement('td');
+            scheduleItem.innerHTML = info.course+'<br>'
+                                        + info.ageGroup+'<br>'
+                                        + "Morning";
+            fullSchedule.appendChild(scheduleItem);
+        }
+        for (var item in schedule['weeks'][i]['a']) {
+            var info = schedule['weeks'][i]['a'][item];
+            var scheduleItem = document.createElement('td');
+            scheduleItem.innerHTML = info.course+'<br>'
+                                        + info.ageGroup+'<br>'
+                                        + "Afternoon";
+            fullSchedule.appendChild(scheduleItem);
+        }
+        table.appendChild(fullSchedule);
+    }
+    body.appendChild(table);
+    html.appendChild(body);
+
+    return html.outerHTML;
+}
 
 // Function to popup confirm box when there is an instructor conflict
 var confirmConflictingInstructor = function () {

@@ -60,6 +60,14 @@
         $saveForm.append($scheduleId);
         $saveForm.submit();
       });
+      $("#btn-print-schedule").on("click", function () {
+        var scheduleHTML = printSchedule(schedule);
+        var printWindow = window.open('', '', 'height=400,width=800');
+        printWindow.document.write('<!DOCTYPE html>');
+        printWindow.document.write(scheduleHTML);
+        printWindow.document.close();
+        printWindow.print();
+      });
     });
   </script>
 
@@ -73,12 +81,22 @@
   <div class="row">
     <div class="col-md-4">
       <button id="btn-schedule-save" class="btn btn-success">Save</button>
+      <button id="btn-print-schedule" class="btn btn-success">Print Schedule</button>
     </div>
   </div>
   <br>
   <div class="row">
     <div class="col-md-12">
       <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
+        <li role="presentation">
+          <a href="#fullSchedule"
+             aria-controls="fullSchedule"
+             role="tab"
+             data-toggle="tab"
+          >
+            Full Schedule
+          </a>
+        </li>
         {% for week in weeks %}
           <li role="presentation">
             <a href="#week-{{ week }}"
@@ -96,6 +114,15 @@
   <div class="row">
     <div class="col-md-12">
       <div class="tab-content">
+        <div role="tabpanel" class="table-responsive tab-pane" id="fullSchedule">
+          <table id="fullScheduleAsTable" class="table table-striped table-bordered">
+            <tbody id="fullScheduleBody">
+              <script>
+                generateFullSchedule(schedule);
+              </script>
+            </tbody>
+          </table>
+        </div>
         {% for week in weeks %}
           <div role="tabpanel" class="tab-pane" id="week-{{ week }}">
             <div class="row">
