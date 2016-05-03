@@ -91,7 +91,9 @@ class Instructor(models.Model):
 
     availability = ArrayField(
         models.CharField(max_length=5),
-        default=list
+        default=list,
+        blank=True,
+        null=True
     )
 
     # Dawn was assuming specialty was just the classes they could teach
