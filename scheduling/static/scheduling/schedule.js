@@ -2,7 +2,7 @@
 //   scheduling.html page
 
 // Global variable that will store which instructors and classrooms are
-//    available when in order to determine conflicts to warn about
+//    scheduled when in order to determine conflicts to warn about
 var conflicts = {
     1: { m: { instructor: [], classroom:[] },
          a: { instructor: [], classroom:[] } },
@@ -29,6 +29,10 @@ var conflicts = {
     12: { m: { instructor: [], classroom:[] },
          a: { instructor: [], classroom:[] } }
 }
+
+// Global variable that will store rooms that have a capacity of more than 1
+//    and what that capacity is (where 1 is the number of classes it can fit)
+var rooms = [];
 
 var Week = function () {
     return {
@@ -115,6 +119,11 @@ function generateAvailable(data, schedule, week, time) {
         var instructor = data[week][time][pair][1];
 
         for (var room in course.room_requirement) {
+            if (course.room_requirement[room].capacity > 1) {
+                if (!(course.room_requirement[room].name in rooms))
+                    rooms[course.room_requirement[room].name] = course.room_requirement[room].capacity;
+            }
+
             var used = false;
             if (schedule != null) {
                 for (var item in schedule['weeks'][week-1][time]) {
@@ -410,7 +419,7 @@ var confirmConflictingInstructor = function () {
 // Function to popup confirm box when there is a classroom conflict
 var confirmConflictingClassroom = function () {
     return confirm('The classroom for this class is ' +
-        'already scheduled for a class at this time of day. ' +
+        'already at capacity for this time of day. ' +
         'Are you sure you want to do this?');
 };
 
@@ -439,6 +448,7 @@ $(function () {
     });
 
     //Function to delete the draggable from the list and add it to the droppable when dropped
+    //  Checks for conflicts and prompts to decide whether to actually add or not
     //Called from the previous function
     function addToCalendar($item, $week) {
         /* ---testing purposes---
@@ -464,7 +474,24 @@ $(function () {
             }
 
             if (conflicts[w][t]['classroom'].indexOf(obj.classroom) != -1) {
-                if (!confirmConflictingClassroom()) {
+                if (obj.classroom in rooms) {
+                    var num = 0;
+                    var classrooms = conflicts[w][t]['classroom'];
+
+                    function count(item, index) {
+                        if (item==obj.classroom){
+                            num++;
+                        }
+                    }
+                    classrooms.forEach(count);
+                    if (num >= rooms[obj.classroom]) {
+                        if (!confirmConflictingClassroom()) {
+                            removeFromCalendar($item, $('.allCourses'));
+                            return;
+                        }
+                    }
+                }
+                else if (!confirmConflictingClassroom()) {
                     removeFromCalendar($item, $('.allCourses'));
                     return;
                 }
