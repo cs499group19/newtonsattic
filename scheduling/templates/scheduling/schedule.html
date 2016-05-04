@@ -61,7 +61,7 @@
         $saveForm.submit();
       });
       $("#btn-print-schedule").on("click", function () {
-        var scheduleHTML = printSchedule(schedule);
+        var scheduleHTML = printSchedule(schedule, weekNames);
         var printWindow = window.open('', '', 'height=400,width=800');
         printWindow.document.write('<!DOCTYPE html>');
         printWindow.document.write(scheduleHTML);
@@ -74,6 +74,7 @@
   <script type="application/javascript">
     var data = JSON.parse('{{ data|safe }}');
     var schedule = JSON.parse('{{ schedule|safe }}');
+    var weekNames = JSON.parse('{{ tab_settings_json|safe }}');
   </script>
 {% endblock %}
 
@@ -104,7 +105,7 @@
                role="tab"
                data-toggle="tab"
             >
-{#              Week {{ week }}#}
+              {# Week {{ week }}#}
               {{ tab_settings|get_item:week }}
             </a>
           </li>
@@ -119,7 +120,7 @@
           <table id="fullScheduleAsTable" class="table table-striped table-bordered">
             <tbody id="fullScheduleBody">
               <script>
-                generateFullSchedule(schedule);
+                generateFullSchedule(schedule, weekNames);
               </script>
             </tbody>
           </table>

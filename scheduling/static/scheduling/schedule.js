@@ -263,11 +263,11 @@ function generateSchedule(schedule, week, time) {
 }
 
 // Function to generate the full schedule
-function generateFullSchedule(schedule) {
+function generateFullSchedule(schedule, weekNames) {
     for (var i = 0; i < 12; i++) {
         var fullSchedule = document.createElement('tr');
         var weekLabel = document.createElement('th');
-        weekLabel.innerHTML = "Week "+(i+1);
+        weekLabel.innerHTML = weekNames[i+1];
         fullSchedule.appendChild(weekLabel);
         for (var item in schedule['weeks'][i]['m']) {
             var info = schedule['weeks'][i]['m'][item];
@@ -347,7 +347,7 @@ var saveSchedule = function() {
 }
 
 // Function to generate the full schedule that can be printed
-function printSchedule(schedule) {
+function printSchedule(schedule, weekNames) {
     var html = document.createElement('html');
     var head = document.createElement('head');
     var style = document.createElement('style');
@@ -363,7 +363,7 @@ function printSchedule(schedule) {
     for (var i = 0; i < 12; i++) {
         var fullSchedule = document.createElement('tr');
         var weekLabel = document.createElement('th');
-        weekLabel.innerHTML = "Week "+(i+1);
+        weekLabel.innerHTML = weekNames[i+1];
         fullSchedule.appendChild(weekLabel);
         for (var item in schedule['weeks'][i]['m']) {
             var info = schedule['weeks'][i]['m'][item];
