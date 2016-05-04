@@ -1,9 +1,9 @@
 How to setup database
 ---------------------
- * Create database called 'newtonsattic'
 
  * Create user called 'newtonsattic'
     - Ensure password is set to 'password'
+    - CREATE USER newtonsattic WITH PASSWORD 'password';
 
- * Grant user all permissions on database
-    - 'GRANT ALL PRIVILEGES ON DATABASE newtonsattic TO newtonsattic;'
+ * Create database called 'newtonsattic' 
+    - CREATE DATABASE newtonsattic OWNER newtonsattic;
