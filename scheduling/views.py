@@ -1,12 +1,8 @@
 import json
-import pprint
-import re
 
 import django.contrib.auth
-from django.apps import apps
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -56,6 +52,11 @@ def create_new_schedule(request):
 
 @login_required(login_url='/login/')
 def edit_schedule(request, schedule_id):
+    # If the user does not have permission to alter schedule objects,
+    # (i.e. an instructor) redirect them to availability page.
+    if not request.user.has_perm('scheduling.change_schedule'):
+        return HttpResponseRedirect(reverse('availability'))
+
     schedule = get_object_or_404(models.Schedule, pk=schedule_id)
 
     context = {
@@ -87,11 +88,24 @@ def edit_schedule(request, schedule_id):
     context['data'] = json.dumps(data, sort_keys=True)
     context['schedule'] = schedule.schedule
 
+    tab_settings = models.WeekHeadingsSettings.objects.first()
+
+    if tab_settings is None:
+        tab_settings = models.WeekHeadingsSettings()
+        tab_settings.save()
+
+    context['tab_settings'] = {k: tab_settings.name_for_week(k) for k in range(1, 13)}
+
     return render(request, 'scheduling/schedule.html', context)
 
 
 @login_required(login_url='/login/')
 def save_schedule(request):
+    # If the user does not have permission to alter schedule objects,
+    # (i.e. an instructor) redirect them to availability page.
+    if not request.user.has_perm('scheduling.change_schedule'):
+        return HttpResponseRedirect(reverse('availability'))
+
     if request.POST:
         schedule = get_object_or_404(models.Schedule, pk=request.POST.get('schedule_id'))
 
@@ -132,6 +146,45 @@ def instructor_availability(request):
     context['checked'] = request.user.instructor.availability
 
     return render(request, 'scheduling/availability.html', context)
+
+
+@login_required(login_url='/login/')
+def edit_schedule_tabs(request):
+    context = {}
+
+    # If the user does not have permission to alter schedule objects,
+    # (i.e. an instructor) redirect them to availability page.
+    if not request.user.has_perm('scheduling.change_schedule'):
+        return HttpResponseRedirect(reverse('availability'))
+
+    tab_settings = models.WeekHeadingsSettings.objects.first()
+
+    if tab_settings is None:
+        tab_settings = models.WeekHeadingsSettings()
+        tab_settings.save()
+
+    if request.POST:
+        tab_settings.week1_title = request.POST.get('1', '')
+        tab_settings.week2_title = request.POST.get('2', '')
+        tab_settings.week3_title = request.POST.get('3', '')
+        tab_settings.week4_title = request.POST.get('4', '')
+        tab_settings.week5_title = request.POST.get('5', '')
+        tab_settings.week6_title = request.POST.get('6', '')
+        tab_settings.week7_title = request.POST.get('7', '')
+        tab_settings.week8_title = request.POST.get('8', '')
+        tab_settings.week9_title = request.POST.get('9', '')
+        tab_settings.week10_title = request.POST.get('10', '')
+        tab_settings.week11_title = request.POST.get('11', '')
+        tab_settings.week12_title = request.POST.get('12', '')
+
+        tab_settings.save()
+
+        messages.success(request, 'Tab settings have been successfully updated.')
+
+    context['weeks'] = list(range(1, 13))
+    context['tab_settings'] = {k: tab_settings.name_for_week(k) for k in range(1, 13)}
+
+    return render(request, 'scheduling/tab_settings.html', context)
 
 
 def register_user(request):

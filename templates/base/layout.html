@@ -128,6 +128,7 @@ desired effect
           {% if request.user.is_staff %}
             <li class=""><a href="{% url 'index' %}"><i class="fa fa-link"></i> <span>Scheduling</span></a></li>
             <li><a href="{% url 'admin:index' %}"><i class="fa fa-link"></i> <span>Admin Area</span></a></li>
+            <li class=""><a href="{% url 'settings' %}"><i class="fa fa-link"></i> <span>Settings</span></a></li>
           {% endif %}
           <li><a href="{% url 'logout' %}"><i class="fa fa-link"></i> <span>Sign Out</span></a></li>
           {#        <li class="treeview">#}

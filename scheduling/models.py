@@ -139,21 +139,37 @@ class Document(models.Model):
     def __str__(self):
         return self.name
 
-#
-# class WeekHeadingsSettings(models.Model):
-#     week1_title = models.CharField(max_length=255, default='Week 1')
-#     week2_title = models.CharField(max_length=255, default='Week 2')
-#     week3_title = models.CharField(max_length=255, default='Week 3')
-#     week4_title = models.CharField(max_length=255, default='Week 4')
-#     week5_title = models.CharField(max_length=255, default='Week 5')
-#     week6_title = models.CharField(max_length=255, default='Week 6')
-#     week7_title = models.CharField(max_length=255, default='Week 7')
-#     week8_title = models.CharField(max_length=255, default='Week 8')
-#     week9_title = models.CharField(max_length=255, default='Week 9')
-#     week10_title = models.CharField(max_length=255, default='Week 10')
-#     week11_title = models.CharField(max_length=255, default='Week 11')
-#     week12_title = models.CharField(max_length=255, default='Week 12')
-#
-#     def __str__(self):
-#         return 'Week Heading Settings'
-#
+
+class WeekHeadingsSettings(models.Model):
+    week1_title = models.CharField(max_length=255, default='Week 1')
+    week2_title = models.CharField(max_length=255, default='Week 2')
+    week3_title = models.CharField(max_length=255, default='Week 3')
+    week4_title = models.CharField(max_length=255, default='Week 4')
+    week5_title = models.CharField(max_length=255, default='Week 5')
+    week6_title = models.CharField(max_length=255, default='Week 6')
+    week7_title = models.CharField(max_length=255, default='Week 7')
+    week8_title = models.CharField(max_length=255, default='Week 8')
+    week9_title = models.CharField(max_length=255, default='Week 9')
+    week10_title = models.CharField(max_length=255, default='Week 10')
+    week11_title = models.CharField(max_length=255, default='Week 11')
+    week12_title = models.CharField(max_length=255, default='Week 12')
+
+    def name_for_week(self, week):
+        return {
+            '1': self.week1_title,
+            '2': self.week2_title,
+            '3': self.week3_title,
+            '4': self.week4_title,
+            '5': self.week5_title,
+            '6': self.week6_title,
+            '7': self.week7_title,
+            '8': self.week8_title,
+            '9': self.week9_title,
+            '10': self.week10_title,
+            '11': self.week11_title,
+            '12': self.week12_title,
+        }.get(str(week), '')
+
+    def __str__(self):
+        return 'Week Heading Settings'
+

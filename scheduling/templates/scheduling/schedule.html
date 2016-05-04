@@ -104,7 +104,8 @@
                role="tab"
                data-toggle="tab"
             >
-              Week {{ week }}
+{#              Week {{ week }}#}
+              {{ tab_settings|get_item:week }}
             </a>
           </li>
         {% endfor %}
