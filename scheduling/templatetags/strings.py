@@ -7,7 +7,7 @@ register = template.Library()
 def to_str(value):
     """
     Convert value to string
-    
+
     :param value: any object
     :return: str representation of `value`
     """

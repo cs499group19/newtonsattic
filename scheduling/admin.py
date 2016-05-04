@@ -1,3 +1,8 @@
+""" admin.py
+
+Django Admin configuration for the newtonsattic app.
+"""
+
 from django.contrib.admin import AdminSite
 from django.contrib.auth.models import User
 
@@ -8,6 +13,11 @@ from .models import Schedule
 
 
 class SchedulingAdmin(AdminSite):
+    """
+    Custom admin site.
+
+    We use this to set branding in Django Admin.
+    """
     site_header = 'Newton\'s Attic Administration'
     site_title = 'Newton\'s Attic Admin'
 
