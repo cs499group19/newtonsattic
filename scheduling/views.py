@@ -1,3 +1,8 @@
+""" views.py
+
+Defines the controllers used for the site.
+"""
+
 import json
 
 import django.contrib.auth
@@ -13,6 +18,12 @@ from . import models
 
 @login_required(login_url='/login/')
 def index(request):
+    """
+    Index Controller
+
+    :param request: HttpRequest
+    :return: the index view
+    """
     # Get all available schedules from database.
     # Used to populate load select box.
     context = {'schedules': models.Schedule.objects.all()}
@@ -27,6 +38,12 @@ def index(request):
 
 @login_required(login_url='/login/')
 def create_new_schedule(request):
+    """
+    Schedule Create Controller.
+
+    :param request: http request
+    :return: edit schedule view
+    """
     # We only want to process POST requests.
     if request.POST:
 
@@ -56,6 +73,13 @@ def create_new_schedule(request):
 
 @login_required(login_url='/login/')
 def edit_schedule(request, schedule_id):
+    """
+    Edit Schedule Controller.
+
+    :param request: http request
+    :param schedule_id: the id of the schedule we want to edit.
+    :return: the edit schedule view
+    """
     # If the user does not have permission to alter schedule objects,
     # (i.e. an instructor) redirect them to availability page.
     if not request.user.has_perm('scheduling.change_schedule'):
@@ -92,6 +116,7 @@ def edit_schedule(request, schedule_id):
     context['data'] = json.dumps(data, sort_keys=True)
     context['schedule'] = schedule.schedule
 
+    # load tab names
     tab_settings = models.WeekHeadingsSettings.objects.first()
 
     if tab_settings is None:
@@ -103,20 +128,29 @@ def edit_schedule(request, schedule_id):
             return HttpResponseRedirect(reverse('index'))
 
     context['tab_settings'] = {k: tab_settings.name_for_week(k) for k in range(1, 13)}
+    context['tab_settings_json'] = json.dumps(context['tab_settings'])
 
     return render(request, 'scheduling/schedule.html', context)
 
 
 @login_required(login_url='/login/')
 def save_schedule(request):
+    """
+    Schedule Save Controller.
+
+    :param request: http request
+    :return: the schedule load view
+    """
     # If the user does not have permission to alter schedule objects,
     # (i.e. an instructor) redirect them to availability page.
     if not request.user.has_perm('scheduling.change_schedule'):
         return HttpResponseRedirect(reverse('availability'))
 
     if request.POST:
+        # get the schedule, if we can't find it 404
         schedule = get_object_or_404(models.Schedule, pk=request.POST.get('schedule_id'))
 
+        # save changes to the database
         schedule.schedule = request.POST.get('schedule')
         try:
             schedule.save()
@@ -131,6 +165,12 @@ def save_schedule(request):
 
 @login_required(login_url='/login/')
 def instructor_availability(request):
+    """
+    Instructor Availability Controller.
+
+    :param request: http request
+    :return: the instructor availability view
+    """
     context = {
         'weeks': range(1, 13),
     }
@@ -161,6 +201,7 @@ def instructor_availability(request):
     # used to pre check the boxes they have selected previously.
     context['checked'] = request.user.instructor.availability
 
+    # load tab names
     tab_settings = models.WeekHeadingsSettings.objects.first()
 
     if tab_settings is None:
@@ -174,6 +215,13 @@ def instructor_availability(request):
 
 @login_required(login_url='/login/')
 def edit_schedule_tabs(request):
+    """
+    Schedule Tab Names Settings
+
+
+    :param request: http request
+    :return: the edit settings view
+    """
     context = {}
 
     # If the user does not have permission to alter schedule objects,
@@ -181,13 +229,18 @@ def edit_schedule_tabs(request):
     if not request.user.has_perm('scheduling.change_schedule'):
         return HttpResponseRedirect(reverse('availability'))
 
+    # load tab names
     tab_settings = models.WeekHeadingsSettings.objects.first()
 
+    # if this has never been accessed, create settings
+    # in db with default values
     if tab_settings is None:
         tab_settings = models.WeekHeadingsSettings()
         tab_settings.save()
 
+    # if this is a post request
     if request.POST:
+        # get the new tab names and set them
         tab_settings.week1_title = request.POST.get('1', '')
         tab_settings.week2_title = request.POST.get('2', '')
         tab_settings.week3_title = request.POST.get('3', '')
@@ -201,6 +254,7 @@ def edit_schedule_tabs(request):
         tab_settings.week11_title = request.POST.get('11', '')
         tab_settings.week12_title = request.POST.get('12', '')
 
+        # save new names
         try:
             tab_settings.save()
         except:
@@ -209,6 +263,7 @@ def edit_schedule_tabs(request):
 
         messages.success(request, 'Tab settings have been successfully updated.')
 
+    # load settings
     context['weeks'] = list(range(1, 13))
     context['tab_settings'] = {k: tab_settings.name_for_week(k) for k in range(1, 13)}
 
@@ -216,6 +271,12 @@ def edit_schedule_tabs(request):
 
 
 def register_user(request):
+    """
+    User Registration Controller.
+
+    :param request: http request
+    :return: the registration view
+    """
     # if this is a post request, we want to create a user.
     if request.POST:
         # get values submitted from form.
@@ -241,6 +302,12 @@ def register_user(request):
 
 
 def logout(request):
+    """
+    User Logout Controller.
+
+    :param request: http request
+    :return: signin view
+    """
     django.contrib.auth.logout(request)
 
     return HttpResponseRedirect(reverse('login'))
