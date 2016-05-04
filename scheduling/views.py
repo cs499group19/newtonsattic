@@ -41,7 +41,11 @@ def create_new_schedule(request):
 
         # Otherwise, create a schedule with specified name.
         schedule = models.Schedule(name=name)
-        schedule.save()
+        try:
+            schedule.save()
+        except:
+            messages.error(request, 'The schedule could not be created.')
+            return HttpResponseRedirect(reverse('index'))
 
         messages.success(request, 'Schedule "{}" has been created!'.format(name))
 
@@ -92,7 +96,11 @@ def edit_schedule(request, schedule_id):
 
     if tab_settings is None:
         tab_settings = models.WeekHeadingsSettings()
-        tab_settings.save()
+        try:
+            tab_settings.save()
+        except:
+            messages.error(request, 'Unknown database error. Please contact the system administrator.')
+            return HttpResponseRedirect(reverse('index'))
 
     context['tab_settings'] = {k: tab_settings.name_for_week(k) for k in range(1, 13)}
 
@@ -110,7 +118,11 @@ def save_schedule(request):
         schedule = get_object_or_404(models.Schedule, pk=request.POST.get('schedule_id'))
 
         schedule.schedule = request.POST.get('schedule')
-        schedule.save()
+        try:
+            schedule.save()
+        except:
+            messages.error(request, 'Schedule "{}" could not be saved.'.format(schedule.name))
+            return HttpResponseRedirect(reverse('index'))
 
         messages.success(request, 'Your schedule have been saved successfully!')
 
@@ -137,7 +149,11 @@ def instructor_availability(request):
 
         # set availabilities for logged in user
         request.user.instructor.availability = times
-        request.user.instructor.save()
+        try:
+            request.user.instructor.save()
+        except:
+            messages.error(request, 'Your availability could not be saved. Please contact the system administrator.')
+            return HttpResponseRedirect(reverse('index'))
 
         messages.success(request, 'Your schedule availability has been updated!')
 
@@ -185,7 +201,11 @@ def edit_schedule_tabs(request):
         tab_settings.week11_title = request.POST.get('11', '')
         tab_settings.week12_title = request.POST.get('12', '')
 
-        tab_settings.save()
+        try:
+            tab_settings.save()
+        except:
+            messages.error(request, 'Your settings could not be updated.')
+            return HttpResponseRedirect(reverse('index'))
 
         messages.success(request, 'Tab settings have been successfully updated.')
 
