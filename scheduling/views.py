@@ -210,15 +210,6 @@ def instructor_availability(request):
     # used to pre check the boxes they have selected previously.
     context['checked'] = request.user.instructor.availability
 
-    # load tab names
-    tab_settings = models.WeekHeadingsSettings.objects.first()
-
-    if tab_settings is None:
-        tab_settings = models.WeekHeadingsSettings()
-        tab_settings.save()
-
-    context['tab_settings'] = {k: tab_settings.name_for_week(k) for k in range(1, 13)}
-
     return render(request, 'scheduling/availability.html', context)
 
 
